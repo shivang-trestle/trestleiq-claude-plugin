@@ -9,7 +9,7 @@ The user wants to install or refresh their TrestleIQ API key for this plugin.
 Run the setup helper script using Bash:
 
 ```
-node --import tsx ${CLAUDE_PLUGIN_ROOT}/scripts/setup.ts
+node ${CLAUDE_PLUGIN_ROOT}/mcp-server/dist/setup.js
 ```
 
 The script will:

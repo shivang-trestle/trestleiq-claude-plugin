@@ -3,15 +3,14 @@
   "version": "0.1.0",
   "description": "Claude Code plugin for TrestleIQ identity and phone APIs",
   "private": true,
-  "workspaces": ["mcp-server"],
+  "workspaces": [
+    "mcp-server"
+  ],
   "scripts": {
     "build": "npm run build --workspace=mcp-server",
     "test": "npm run test --workspace=mcp-server",
     "test:live": "npm run test:live --workspace=mcp-server",
-    "setup": "node --import tsx scripts/setup.ts"
-  },
-  "devDependencies": {
-    "tsx": "^4.19.0"
+    "setup": "node mcp-server/dist/setup.js"
   },
   "engines": {
     "node": ">=20"

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { detectShellRc, hasTrestleMarker } from './setup.js';
+import { detectShellRc, hasTrestleMarker } from '../src/setup.js';
 
 describe('detectShellRc', () => {
   it('maps zsh to .zshrc', () => {

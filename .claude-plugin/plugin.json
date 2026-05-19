@@ -2,7 +2,10 @@
   "name": "trestleiq",
   "version": "0.1.0",
   "description": "Validate phone numbers and look up owners via TrestleIQ APIs.",
-  "author": "TrestleIQ",
+  "author": {
+    "name": "TrestleIQ",
+    "url": "https://trestleiq.com"
+  },
   "homepage": "https://trestleiq.com",
   "mcpServers": {
     "trestleiq": {
