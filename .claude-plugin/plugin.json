@@ -1,0 +1,13 @@
+{
+  "name": "trestleiq",
+  "version": "0.1.0",
+  "description": "Validate phone numbers and look up owners via TrestleIQ APIs.",
+  "author": "TrestleIQ",
+  "homepage": "https://trestleiq.com",
+  "mcpServers": {
+    "trestleiq": {
+      "command": "node",
+      "args": ["${CLAUDE_PLUGIN_ROOT}/mcp-server/dist/index.js"]
+    }
+  }
+}
