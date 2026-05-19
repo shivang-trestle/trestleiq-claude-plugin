@@ -1,0 +1,3623 @@
+# Address Validation API
+Source: https://docs.trestleiq.com/api-reference/address-validation-api
+
+GET /3.0/location_intel
+Address Validation API validates and normalizes US addresses, and provides valuable insights like latitude and longitude coordinates.
+
+<Panel>
+  <RequestExample>
+    ```bash cURL theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    curl --request GET \
+      --url "https://api.trestleiq.com/3.0/location_intel?street_line_1=800%20Bellevue%20Way%20NE&city=Bellevue&state_code=WA&postal_code=98004" \
+      --header "x-api-key: YOUR_API_KEY"
+    ```
+
+    ```javascript JavaScript theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    const response = await fetch(
+      "https://api.trestleiq.com/3.0/location_intel?street_line_1=800%20Bellevue%20Way%20NE&city=Bellevue&state_code=WA&postal_code=98004",
+      {
+        headers: {
+          "x-api-key": "YOUR_API_KEY",
+        },
+      }
+    );
+    const data = await response.json();
+    ```
+
+    ```javascript Node.js theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    import axios from "axios";
+
+    const { data } = await axios.get(
+      "https://api.trestleiq.com/3.0/location_intel",
+      {
+        params: {
+          street_line_1: "800 Bellevue Way NE",
+          city: "Bellevue",
+          state_code: "WA",
+          postal_code: "98004",
+        },
+        headers: {
+          "x-api-key": "YOUR_API_KEY",
+        },
+      }
+    );
+    console.log(data);
+    ```
+
+    ```python Python theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    import requests
+
+    headers = {"x-api-key": "YOUR_API_KEY"}
+    params = {
+        "street_line_1": "800 Bellevue Way NE",
+        "city": "Bellevue",
+        "state_code": "WA",
+        "postal_code": "98004",
+    }
+
+    response = requests.get(
+        "https://api.trestleiq.com/3.0/location_intel",
+        params=params,
+        headers=headers,
+        timeout=30,
+    )
+    data = response.json()
+    print(data)
+    ```
+
+    ```csharp C# theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    using var client = new HttpClient();
+    client.DefaultRequestHeaders.Add("x-api-key", "YOUR_API_KEY");
+
+    var response = await client.GetAsync(
+      "https://api.trestleiq.com/3.0/location_intel?street_line_1=800%20Bellevue%20Way%20NE&city=Bellevue&state_code=WA&postal_code=98004"
+    );
+    var body = await response.Content.ReadAsStringAsync();
+    Console.WriteLine(body);
+    ```
+
+    ```go Go theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    package main
+
+    import (
+    	"fmt"
+    	"io"
+    	"net/http"
+    	"net/url"
+    )
+
+    func main() {
+    	params := url.Values{}
+    	params.Set("street_line_1", "800 Bellevue Way NE")
+    	params.Set("city", "Bellevue")
+    	params.Set("state_code", "WA")
+    	params.Set("postal_code", "98004")
+
+    	req, _ := http.NewRequest("GET", "https://api.trestleiq.com/3.0/location_intel?"+params.Encode(), nil)
+    	req.Header.Set("x-api-key", "YOUR_API_KEY")
+
+    	resp, err := http.DefaultClient.Do(req)
+    	if err != nil {
+    		panic(err)
+    	}
+    	defer resp.Body.Close()
+
+    	body, _ := io.ReadAll(resp.Body)
+    	fmt.Println(string(body))
+    }
+    ```
+
+    ```php PHP theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    <?php
+    $params = http_build_query([
+      "street_line_1" => "800 Bellevue Way NE",
+      "city"          => "Bellevue",
+      "state_code"    => "WA",
+      "postal_code"   => "98004",
+    ]);
+
+    $curl = curl_init("https://api.trestleiq.com/3.0/location_intel?" . $params);
+    curl_setopt($curl, CURLOPT_HTTPHEADER, ["x-api-key: YOUR_API_KEY"]);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+
+    $response = curl_exec($curl);
+    curl_close($curl);
+
+    echo $response;
+    ```
+
+    ```java Java theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    import java.net.URI;
+    import java.net.http.HttpClient;
+    import java.net.http.HttpRequest;
+    import java.net.http.HttpResponse;
+
+    public class AddressValidationExample {
+      public static void main(String[] args) throws Exception {
+        HttpRequest request =
+            HttpRequest.newBuilder()
+                .uri(
+                    URI.create(
+                        "https://api.trestleiq.com/3.0/location_intel?street_line_1=800%20Bellevue%20Way%20NE&city=Bellevue&state_code=WA&postal_code=98004"))
+                .header("x-api-key", "YOUR_API_KEY")
+                .GET()
+                .build();
+
+        HttpResponse<String> response =
+            HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+        System.out.println(response.body());
+      }
+    }
+    ```
+  </RequestExample>
+
+  <ResponseExample>
+    ```json Response Example theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    {
+      "id": "Location.6a3b1c11-76fd-4b25-86bc-5cfb588b4f6b",
+      "is_valid": true,
+      "street_line_1": "800 Bellevue Way NE",
+      "street_line_2": null,
+      "city": "Bellevue",
+      "postal_code": "98004",
+      "zip4": "4286",
+      "state_code": "WA",
+      "country_code": "US",
+      "lat_long": {
+        "latitude": 47.6175,
+        "longitude": -122.2017,
+        "accuracy": "RoofTop"
+      },
+      "error": null,
+      "warnings": []
+    }
+    ```
+  </ResponseExample>
+</Panel>
+
+## Address Validation API 3.0
+
+```http theme={"theme":{"light":"github-light","dark":"github-dark"}}
+GET https://api.trestleiq.com/3.0/location_intel?street_line_1=[insert_street_line_1]&city=[insert_city]&state_code=[insert_state_code]&postal_code=[insert_postal_code]
+```
+
+<Warning>
+  **Note:** This API supports US addresses only. Requests for non-US addresses will return a warning and no address data.
+</Warning>
+
+## Query Parameters
+
+<ParamField type="string">
+  The first line of the street part in the structured address. **Example:** `street_line_1=800 Bellevue Way NE`
+</ParamField>
+
+<ParamField type="string">
+  The second line of the street part in the structured address (e.g. apartment or suite number). **Example:** `street_line_2=Ste 100`
+</ParamField>
+
+<ParamField type="string">
+  The name of the city in the structured address. **Example:** `city=Bellevue`
+</ParamField>
+
+<ParamField type="string">
+  The state code of the structured address. **Example:** `state_code=WA`
+</ParamField>
+
+<ParamField type="string">
+  The postal code of the structured address. **Example:** `postal_code=98004`
+</ParamField>
+
+## Headers
+
+<ParamField type="string">
+  Your API key for authentication. **Example:** `{{ apiKey }}`
+</ParamField>
+
+## Response
+
+<ResponseField name="id" type="string or null <Location.<uuid>>">
+  The persistent ID of the validated address. Format: `Location.<uuid>`. Only present when the address is valid.
+</ResponseField>
+
+<ResponseField name="is_valid" type="boolean or null">
+  True if the address is valid.
+</ResponseField>
+
+<ResponseField name="street_line_1" type="string or null">
+  The first line of the street part in the structured address, normalized by USPS CASS standards.
+</ResponseField>
+
+<ResponseField name="street_line_2" type="string or null">
+  The second line of the street part in the structured address. Returns `null` for this API — unit information is incorporated into `street_line_1` during normalization.
+</ResponseField>
+
+<ResponseField name="city" type="string or null">
+  The name of the city in the structured address.
+</ResponseField>
+
+<ResponseField name="postal_code" type="string or null">
+  The 5-digit postal code of the structured address.
+</ResponseField>
+
+<ResponseField name="zip4" type="string or null">
+  The 4-digit ZIP+4 extension of the structured address (USA).
+</ResponseField>
+
+<ResponseField name="state_code" type="string or null">
+  The state code of the structured address.
+</ResponseField>
+
+<ResponseField name="country_code" type="string or null (ISO-3166-2)">
+  The ISO-3166 alpha-2 country code of the address. Always `US` for valid responses from this API.
+</ResponseField>
+
+<ResponseField name="lat_long" type="object or null">
+  The coordinates of the geographical location of the address. Only present when CASS returns coordinate data.
+
+  <Expandable title="lat_long object">
+    <ResponseField name="latitude" type="number or null <double>">
+      The latitude coordinate of the location.
+    </ResponseField>
+
+    <ResponseField name="longitude" type="number or null <double>">
+      The longitude coordinate of the location.
+    </ResponseField>
+
+    <ResponseField name="accuracy" type="string or null">
+      The accuracy of the geographical location based on which address components were matched.
+
+      Enum: <Badge>RoofTop</Badge> <Badge>PostalCode</Badge> <Badge>CityState</Badge> <Badge>State</Badge> <Badge>Country</Badge>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="error" type="string or null">
+  An error message string if a partial error occurred during processing, otherwise `null`.
+</ResponseField>
+
+<ResponseField name="warnings" type="string[]">
+  Warnings returned as part of the response, if applicable.
+
+  Enum: <Badge>Missing Input</Badge> <Badge>Invalid address</Badge> <Badge>Invalid house/building number</Badge> <Badge>Missing unit/apt/suite number</Badge> <Badge>Invalid unit/apt/suite number</Badge> <Badge>Non-US country address validation is not supported.</Badge> <Badge>Address validation could not be completed at this time. Please try again later</Badge>
+</ResponseField>
+
+<Danger>
+  ## Error Responses
+
+  ### 400 Bad Request
+
+  The server cannot process the request due to client-side errors.
+
+  *<u>Check for:</u>* Syntax errors in the request script, malformed JSON, or invalid parameters.
+
+  ### 403 Forbidden
+
+  The request is understood, but the server is refusing to fulfill it.
+
+  * **Invalid API Key**: The key is incorrect or deactivated.
+
+    *<u>Check for:</u>* Trailing spaces, syntax errors, or incorrect character counts.
+
+  * **API Key Missing**: The request header did not include an API key.
+
+  * **API Key Disabled (Portal Issue)**: The key is inactive.
+
+    *<u>Check for:</u>* Insufficient funds in your self-serve wallet or if a Trestle Admin manually deactivated your API key.
+
+  * **API Key does not have Product Access (Portal Issue)**: The API key is active, but it is not enabled for this product or API version.
+
+    *<u>Check for:</u>* Incorrect endpoint, incorrect API version, or missing product access on the key.
+
+  * **API Key Expired**: The key has reached its end-of-life (primarily affects Trial users).
+
+  ### 429 Too Many Requests
+
+  You have sent too many requests in a given amount of time.
+
+  * **Rate Limit Exceeded**: You have surpassed the queries-per-second (QPS) threshold for your tier.
+
+  * **Quota Exceeded (Portal Issue)**: You have reached the total volume allowed for your current billing cycle. Upgrade your plan in the portal to resume service.
+
+  ### 500 Internal Server Error
+
+  An unexpected error occurred on the server side. Please contact support if this persists.
+</Danger>
+
+
+# Caller Identification API
+Source: https://docs.trestleiq.com/api-reference/caller-identification-api
+
+GET /3.1/caller_id
+Caller Identification API identifies the phone owner’s name and demographic details, along with that owner’s address, alternate phones, and emails.
+
+<Panel>
+  <RequestExample>
+    ```bash cURL theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    curl --request GET \
+      --url "https://api.trestleiq.com/3.1/caller_id?phone=2069735100" \
+      --header "x-api-key: YOUR_API_KEY"
+    ```
+
+    ```javascript JavaScript theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    const response = await fetch(
+      "https://api.trestleiq.com/3.1/caller_id?phone=2069735100",
+      {
+        headers: {
+          "x-api-key": "YOUR_API_KEY",
+        },
+      }
+    );
+    const data = await response.json();
+    ```
+
+    ```javascript Node.js theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    import axios from "axios";
+
+    const { data } = await axios.get(
+      "https://api.trestleiq.com/3.1/caller_id?phone=2069735100",
+      {
+        headers: {
+          "x-api-key": "YOUR_API_KEY",
+        },
+      }
+    );
+    console.log(data);
+    ```
+
+    ```python Python theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    import requests
+
+    headers = {"x-api-key": "YOUR_API_KEY"}
+
+    response = requests.get(
+        "https://api.trestleiq.com/3.1/caller_id",
+        params={"phone": "2069735100"},
+        headers=headers,
+        timeout=30,
+    )
+    data = response.json()
+    print(data)
+    ```
+
+    ```csharp C# theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    using var client = new HttpClient();
+    client.DefaultRequestHeaders.Add("x-api-key", "YOUR_API_KEY");
+
+    var response = await client.GetAsync("https://api.trestleiq.com/3.1/caller_id?phone=2069735100");
+    var body = await response.Content.ReadAsStringAsync();
+    Console.WriteLine(body);
+    ```
+
+    ```go Go theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    package main
+
+    import (
+    	"fmt"
+    	"io"
+    	"net/http"
+    )
+
+    func main() {
+    	req, _ := http.NewRequest("GET", "https://api.trestleiq.com/3.1/caller_id?phone=2069735100", nil)
+    	req.Header.Set("x-api-key", "YOUR_API_KEY")
+
+    	resp, err := http.DefaultClient.Do(req)
+    	if err != nil {
+    		panic(err)
+    	}
+    	defer resp.Body.Close()
+
+    	body, _ := io.ReadAll(resp.Body)
+    	fmt.Println(string(body))
+    }
+    ```
+
+    ```php PHP theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    <?php
+    $curl = curl_init("https://api.trestleiq.com/3.1/caller_id?phone=2069735100");
+    curl_setopt($curl, CURLOPT_HTTPHEADER, ["x-api-key: YOUR_API_KEY"]);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+
+    $response = curl_exec($curl);
+    curl_close($curl);
+
+    echo $response;
+    ```
+
+    ```java Java theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    import java.net.URI;
+    import java.net.http.HttpClient;
+    import java.net.http.HttpRequest;
+    import java.net.http.HttpResponse;
+
+    public class CallerIdExample {
+      public static void main(String[] args) throws Exception {
+        HttpRequest request =
+            HttpRequest.newBuilder()
+                .uri(URI.create("https://api.trestleiq.com/3.1/caller_id?phone=2069735100"))
+                .header("x-api-key", "YOUR_API_KEY")
+                .GET()
+                .build();
+
+        HttpResponse<String> response =
+            HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+        System.out.println(response.body());
+      }
+    }
+    ```
+  </RequestExample>
+
+  <ResponseExample>
+    ```json Response Example theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    {
+      "id": "Phone.3dbb6fef-a2df-4b08-cfe3-bc7128b6f5b4",
+      "phone_number": "2069735100",
+      "is_valid": true,
+      "country_calling_code": "1",
+      "line_type": "NonFixedVOIP",
+      "carrier": "Trestle Telco",
+      "is_prepaid": false,
+      "is_commercial": true,
+      "belongs_to": {
+        "id": "Person.fffdcf06-0929-4b5a-9921-ee49b101ca84",
+        "name": "Waidong L Syrws",
+        "firstname": "Waidong",
+        "middlename": "L",
+        "lastname": "Syrws",
+        "alternate_names": [
+          "Sryws W L"
+        ],
+        "age_range": "25-29",
+        "gender": null,
+        "type": "Person",
+        "industry": null,
+        "link_to_phone_start_date": "2019-03-23"
+      },
+      "current_address": {
+          "id": "Location.d1a40ed5-a70a-46f8-80a9-bb4ac27e3a01",
+          "location_type": "Address",
+          "street_line_1": "100 Syrws St",
+          "street_line_2": "Ste 1",
+          "city": "Lynden",
+          "postal_code": "98264",
+          "zip4": "98264-9999",
+          "state_code": "WA",
+          "country_code": "US",
+          "lat_long": {
+            "latitude": 0,
+            "longitude": 0,
+            "accuracy": "Neighborhood"
+          },
+          "is_active": true,
+          "delivery_point": "SingleUnit",
+          "link_to_person_start_date": "2011-10-05"
+      },
+      "emails": [
+        "waidong.syrws@email.com"
+      ]
+      "error": {
+        "name": "InternalError",
+        "message": "Could not retrieve entire response"
+      },
+      "warnings": [
+        "Missing Input"
+      ]
+    }
+    ```
+  </ResponseExample>
+</Panel>
+
+## Caller ID API 3.1
+
+```http theme={"theme":{"light":"github-light","dark":"github-dark"}}
+GET https://api.trestleiq.com/3.1/caller_id?phone=[insert_phone_number]
+```
+
+## Query Parameters
+
+<ParamField type="string">
+  The phone number in E.164 or local format. The default country calling code is +1 (USA). **Example:** `phone=2069735100`
+</ParamField>
+
+<ParamField type="string (ISO-3166-2)">
+  The ISO-3166 alpha-2 country code of the phone number. **Example:** `phone.country_hint=US`
+</ParamField>
+
+<ParamField type="string">
+  Person or Business name associated with the phone number. If multiple names are associated with the phone in Trestle database, this name will be ranked higher. **Example:** `phone.name_hint=Waidong Syrws`
+</ParamField>
+
+<ParamField type="string">
+  The postal code of the subscriber address associated with the phone number. If multiple names or addresses are associated with the phone in Trestle database, this postal code hint will be used to rank name/address higher. **Example:** `phone.postal_code_hint=98264`
+</ParamField>
+
+## Headers
+
+<ParamField type="string">
+  Your API key for authentication. **Example:** `{{ apiKey }}`
+</ParamField>
+
+## Response
+
+<ResponseField name="id" type="string or null <Phone.<uuid>>">
+  The persistent ID of the phone number.
+</ResponseField>
+
+<ResponseField name="phone_number" type="string or null (PhoneNumber)">
+  The phone number in E.164 or local format. The default country calling code is +1 (USA).
+</ResponseField>
+
+<ResponseField name="is_valid" type="boolean or null">
+  True if the phone number is valid.
+</ResponseField>
+
+<ResponseField name="country_calling_code" type="string or null <E.164>">
+  The country code of the phone number.
+</ResponseField>
+
+<ResponseField name="line_type" type="string or null">
+  The line type of the phone number. Possible values:
+
+  * `Landline` - Traditional wired phone line
+  * `Mobile` - Wireless phone line
+  * `FixedVOIP` - VOIP number connected to a physical address
+  * `NonFixedVOIP` - VOIP number unconnected to a fixed physical address
+  * `Premium` - Caller pays a premium for the call
+  * `TollFree` - Callee pays for call
+  * `Voicemail` - Voicemail-only service
+  * `Other` - Line type is unclear \
+    Enum: <Badge>Landline</Badge> <Badge>Mobile</Badge> <Badge>FixedVOIP</Badge> <Badge>NonFixedVOIP</Badge> <Badge>Premium</Badge> <Badge>TollFree</Badge> <Badge>Voicemail </Badge> <Badge>Other</Badge>
+</ResponseField>
+
+<ResponseField name="carrier" type="string or null">
+  The company that provides voice and/or data services for the phone number. Carriers are returned at the MVNO level.
+</ResponseField>
+
+<ResponseField name="is_prepaid" type="boolean or null">
+  True if the phone is associated with a prepaid account.
+</ResponseField>
+
+<ResponseField name="is_commercial" type="boolean or null">
+  True if the phone number is registered to a business.
+</ResponseField>
+
+<ResponseField name="belongs_to" type="object[]">
+  The primary owner of the phone number.
+
+  <Expandable title="belongs_to object">
+    <ResponseField name="id" type="string or null <Person.<uuid>>">
+      The persistent ID of the address.
+    </ResponseField>
+
+    <ResponseField name="name" type="string or null">
+      The full name of the person.
+    </ResponseField>
+
+    <ResponseField name="firstname" type="string or null (FirstName)">
+      The first name of the person.
+    </ResponseField>
+
+    <ResponseField name="middlename" type="string or null (MiddleName)">
+      The middle name (or middle initial) of the person.
+    </ResponseField>
+
+    <ResponseField name="lastname" type="string or null (LastName)">
+      The last name of the person.
+    </ResponseField>
+
+    <ResponseField name="alternate_names" type="string[]">
+      Alternate names of the person associated with the phone.
+    </ResponseField>
+
+    <ResponseField name="age_range" type="string or null (AgeRange)">
+      The age of the person in a 5-year range.
+    </ResponseField>
+
+    <ResponseField name="gender" type="string or null (Gender)">
+      The gender of the person.
+    </ResponseField>
+
+    <ResponseField name="type" type="string">
+      The type of the legal entity.
+
+      * Person: The legal entity is a person.
+      * Business: The legal entity is a company.
+
+      \
+      Enum: <Badge>Business</Badge>, <Badge>Person</Badge>
+    </ResponseField>
+
+    <ResponseField name="link_to_phone_start_date" type="string or null">
+      The date when the person was first linked to the phone number.
+    </ResponseField>
+
+    <ResponseField name="industry" type="string[] or null">
+      The industry classification of the business associated to the phone.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="current_addresses" type="object[]">
+  Current location associated with Person or Business in belongs\_to array.
+
+  <Expandable title="address object">
+    <ResponseField name="id" type="string or null <Location.<uuid>>">
+      The persistent ID of the address.
+    </ResponseField>
+
+    <ResponseField name="location_type" type="string or null">
+      The type of the location. Enum: <Badge>Country</Badge> <Badge>State</Badge> <Badge>City</Badge> <Badge>PostalCode</Badge> <Badge>ZipPlus4</Badge> <Badge>Neighborhood</Badge><Badge>Address</Badge>
+    </ResponseField>
+
+    <ResponseField name="street_line_1" type="string or null">
+      The first line of the street part in the structured address.
+    </ResponseField>
+
+    <ResponseField name="street_line_2" type="string or null">
+      The second line of the street part in the structured address.
+    </ResponseField>
+
+    <ResponseField name="city" type="string or null">
+      The city associated with the address.
+    </ResponseField>
+
+    <ResponseField name="postal_code" type="string or null">
+      The postal code of the structured address.
+    </ResponseField>
+
+    <ResponseField name="zip4" type="string or null ^\d+-\d{4}$">
+      The ZIP+4 code of the structured address (USA).
+    </ResponseField>
+
+    <ResponseField name="state_code" type="string or null">
+      The state code of the structured address.
+    </ResponseField>
+
+    <ResponseField name="country_code" type="string or null">
+      The ISO-3166 alpha-2 country code of the structured address. See: [ISO-3166](https://www.nationsonline.org/oneworld/country_code_list.htm).
+    </ResponseField>
+
+    <ResponseField name="lat_long" type="object">
+      The coordinates of the geographical location of the address.
+
+      <Expandable title="lat_long object">
+        <ResponseField name="latitude" type="number or null <double>">
+          The latitude coordinate of the location.
+        </ResponseField>
+
+        <ResponseField name="longitude" type="number or null <double>">
+          The longitude coordinate of the location.
+        </ResponseField>
+
+        <ResponseField name="accuracy" type="string or null">
+          The accuracy of the geographical location. Enum: <Badge>Country</Badge> <Badge>State</Badge> <Badge>City</Badge>\
+          <Badge>PostalCode</Badge> <Badge /> <Badge>Street</Badge> <Badge>RoofTop</Badge>
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="is_active" type="boolean or null">
+      True if the address is currently receiving mail.
+    </ResponseField>
+
+    <ResponseField name="delivery_point" type="string or null (DeliveryPoint)">
+      The type of the delivery point of the address. Enum: <Badge>SingleUnit</Badge>, <Badge>MultiUnit</Badge>, <Badge>POBox</Badge>, <Badge>PartialAddress</Badge>
+    </ResponseField>
+
+    <ResponseField name="link_to_person_start_date" type="string or null (LinkToPersonStartDate)">
+      The date when the address was first linked to the person.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="emails" type="string[]">
+  The list of emails associated to the primary owner of the phone.
+</ResponseField>
+
+<ResponseField name="error" type="object(PartialError)">
+  Error details in case of an error.
+
+  <Expandable title="error object">
+    <ResponseField name="name" type="string">
+      Incomplete response due to external timeouts. **value:** "InternalError"
+    </ResponseField>
+
+    <ResponseField name="message" type="string">
+      The error message. **value:** "Could not retrieve entire response"
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="warnings" type="string[]">
+  Warnings returned as part of the response, if applicable.\
+  \
+  Enum: <Badge>Invalid Input</Badge> <Badge>International number. Not authorized</Badge> <Badge>Missing Input</Badge>
+</ResponseField>
+
+<Danger>
+  ## Error Responses
+
+  ### 400 Bad Request
+
+  The server cannot process the request due to client-side errors.
+
+  *<u>Check for:</u>* Syntax errors in the request script, malformed JSON, or invalid parameters.
+
+  ### 403 Forbidden
+
+  The request is understood, but the server is refusing to fulfill it.
+
+  * **Invalid API Key**: The key is incorrect or deactivated.
+
+    *<u>Check for:</u>* Trailing spaces, syntax errors, or incorrect character counts.
+
+  * **API Key Missing**: The request header did not include an API key.
+
+  * **API Key Disabled (Portal Issue)**: The key is inactive.
+
+    *<u>Check for:</u>* Insufficient funds in your self-serve wallet or if a Trestle Admin manually deactivated your API key.
+
+  * **API Key does not have Product Access (Portal Issue)**: The API key is active, but it is not enabled for this product or API version.
+
+    *<u>Check for:</u>* Incorrect endpoint, incorrect API version, or missing product access on the key.
+
+  * **API Key Expired**: The key has reached its end-of-life (primarily affects Trial users).
+
+  ### 429 Too Many Requests
+
+  You have sent too many requests in a given amount of time.
+
+  * **Rate Limit Exceeded**: You have surpassed the queries-per-second (QPS) threshold for your tier.
+
+  * **Quota Exceeded (Portal Issue)**: You have reached the total volume allowed for your current billing cycle. Upgrade your plan in the portal to resume service.
+
+  ### 500 Internal Server Error
+
+  An unexpected error occurred on the server side. Please contact support if this persists.
+</Danger>
+
+
+# Phone Feedback API
+Source: https://docs.trestleiq.com/api-reference/phone-feedback-api
+
+POST /1.0/phone_feedback
+Phone Feedback API offers a method of providing feedback to Trestle about dialed numbers for their connected/disconnected status and confirmation of right party contact.
+
+<Panel>
+  <RequestExample>
+    ```bash cURL theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    curl --location --request POST "https://api.trestleiq.com/1.0/phone_feedback" \
+      --header "x-api-key: YOUR_API_KEY" \
+      --header "Content-Type: application/json" \
+      --data '{
+        "response_id": "T_b5d031b8-e8a3-4eef-8fa8-d87d3b7e386f",
+        "phone": "2069735100",
+        "name": "Waidong Syrws",
+        "phone_status": "Connected",
+        "phone_right_party_contact": true
+      }'
+    ```
+
+    ```javascript JavaScript theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    const response = await fetch("https://api.trestleiq.com/1.0/phone_feedback", {
+      method: "POST",
+      headers: {
+        "x-api-key": "YOUR_API_KEY",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        response_id: "T_b5d031b8-e8a3-4eef-8fa8-d87d3b7e386f",
+        phone: "2069735100",
+        name: "Waidong Syrws",
+        phone_status: "Connected",
+        phone_right_party_contact: true,
+      }),
+    });
+    const data = await response.json();
+    ```
+
+    ```javascript Node.js theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    import axios from "axios";
+
+    const { data } = await axios.post(
+      "https://api.trestleiq.com/1.0/phone_feedback",
+      {
+        response_id: "T_b5d031b8-e8a3-4eef-8fa8-d87d3b7e386f",
+        phone: "2069735100",
+        name: "Waidong Syrws",
+        phone_status: "Connected",
+        phone_right_party_contact: true,
+      },
+      {
+        headers: {
+          "x-api-key": "YOUR_API_KEY",
+        },
+      }
+    );
+    console.log(data);
+    ```
+
+    ```python Python theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    import requests
+
+    headers = {
+        "x-api-key": "YOUR_API_KEY",
+        "Content-Type": "application/json",
+    }
+
+    payload = {
+        "response_id": "T_b5d031b8-e8a3-4eef-8fa8-d87d3b7e386f",
+        "phone": "2069735100",
+        "name": "Waidong Syrws",
+        "phone_status": "Connected",
+        "phone_right_party_contact": True,
+    }
+
+    response = requests.post(
+        "https://api.trestleiq.com/1.0/phone_feedback",
+        json=payload,
+        headers=headers,
+        timeout=30,
+    )
+    data = response.json()
+    print(data)
+    ```
+
+    ```csharp C# theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    using var client = new HttpClient();
+    client.DefaultRequestHeaders.Add("x-api-key", "YOUR_API_KEY");
+
+    var payload = new
+    {
+      response_id = "T_b5d031b8-e8a3-4eef-8fa8-d87d3b7e386f",
+      phone = "2069735100",
+      name = "Waidong Syrws",
+      phone_status = "Connected",
+      phone_right_party_contact = true
+    };
+
+    var response = await client.PostAsJsonAsync("https://api.trestleiq.com/1.0/phone_feedback", payload);
+    var body = await response.Content.ReadAsStringAsync();
+    Console.WriteLine(body);
+    ```
+
+    ```go Go theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    package main
+
+    import (
+    	"bytes"
+    	"fmt"
+    	"net/http"
+    )
+
+    func main() {
+    	jsonBody := []byte(`{
+        "response_id": "T_b5d031b8-e8a3-4eef-8fa8-d87d3b7e386f",
+        "phone": "2069735100",
+        "name": "Waidong Syrws",
+        "phone_status": "Connected",
+        "phone_right_party_contact": true
+      }`)
+
+    	req, _ := http.NewRequest("POST", "https://api.trestleiq.com/1.0/phone_feedback", bytes.NewBuffer(jsonBody))
+    	req.Header.Set("x-api-key", "YOUR_API_KEY")
+    	req.Header.Set("Content-Type", "application/json")
+
+    	resp, err := http.DefaultClient.Do(req)
+    	if err != nil {
+    		panic(err)
+    	}
+    	defer resp.Body.Close()
+
+    	fmt.Println(resp.StatusCode)
+    }
+    ```
+
+    ```php PHP theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    <?php
+    $payload = [
+      "response_id" => "T_b5d031b8-e8a3-4eef-8fa8-d87d3b7e386f",
+      "phone" => "2069735100",
+      "name" => "Waidong Syrws",
+      "phone_status" => "Connected",
+      "phone_right_party_contact" => true
+    ];
+
+    $curl = curl_init("https://api.trestleiq.com/1.0/phone_feedback");
+    curl_setopt($curl, CURLOPT_HTTPHEADER, [
+      "x-api-key: YOUR_API_KEY",
+      "Content-Type: application/json"
+    ]);
+    curl_setopt($curl, CURLOPT_POST, true);
+    curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($payload));
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+
+    $response = curl_exec($curl);
+    curl_close($curl);
+
+    echo $response;
+    ```
+
+    ```java Java theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    import java.net.URI;
+    import java.net.http.HttpClient;
+    import java.net.http.HttpRequest;
+    import java.net.http.HttpResponse;
+
+    public class PhoneFeedbackExample {
+      public static void main(String[] args) throws Exception {
+        String body =
+            """
+            {
+              "response_id": "T_b5d031b8-e8a3-4eef-8fa8-d87d3b7e386f",
+              "phone": "2069735100",
+              "name": "Waidong Syrws",
+              "phone_status": "Connected",
+              "phone_right_party_contact": true
+            }
+            """;
+
+        HttpRequest request =
+            HttpRequest.newBuilder()
+                .uri(URI.create("https://api.trestleiq.com/1.0/phone_feedback"))
+                .header("x-api-key", "YOUR_API_KEY")
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(body))
+                .build();
+
+        HttpResponse<String> response =
+            HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+        System.out.println(response.body());
+      }
+    }
+    ```
+  </RequestExample>
+
+  <ResponseExample>
+    ```json Response Example theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    {
+      "status": "success",
+      "error": {
+        "name": "InternalError",
+        "message": "Could not retrieve entire response"
+      }
+    }
+    ```
+  </ResponseExample>
+</Panel>
+
+## Phone Feedback 1.0
+
+Phone Feedback API allows you to submit phone feedback, including phone status and whether the phone number belongs to the right party based on a live call.
+
+## Headers
+
+<ParamField type="string">
+  Your API key for authentication. **Example:** `{{ apiKey }}`
+</ParamField>
+
+## Request Body
+
+<ParamField type="string">
+  The response ID returned from a prior Trestle API call. **Example:**
+  `T_b5d031b8-e8a3-4eef-8fa8-d87d3b7e386f`
+</ParamField>
+
+<ParamField type="string">
+  The phone number in E.164 or local format. The default country calling code is
+  +1 (USA). **Example:** `2069735100`
+</ParamField>
+
+<ParamField type="string">
+  Person or business name associated with the phone number. **Example:**
+  `Waidong Syrws`
+</ParamField>
+
+<ParamField type="string">
+  Live-call status for the phone number. Possible values: `Connected` or
+  `Disconnected`. **Example:** `Connected` Enum: <Badge>Connected</Badge> <Badge>Disconnected</Badge>
+</ParamField>
+
+<ParamField type="boolean">
+  Indicates if the call confirmed the number belongs to the right party.
+  **Example:** `true`
+</ParamField>
+
+## Response
+
+<ResponseField name="status" type="string">
+  Indicates whether the feedback was received successfully. **Example:**
+  `success`
+</ResponseField>
+
+<ResponseField name="error" type="object(PartialError)">
+  Error details in case of an error.
+
+  <Expandable title="error object">
+    <ResponseField name="name" type="string">
+      Incomplete response due to external timeouts. **value:** "InternalError"
+    </ResponseField>
+
+    <ResponseField name="message" type="string">
+      The error message. **value:** "Could not retrieve entire response"
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<Danger>
+  ## Error Responses
+
+  ### 400 Bad Request
+
+  The server cannot process the request due to client-side errors.
+
+  *<u>Check for:</u>* Syntax errors in the request script, malformed JSON, or invalid parameters.
+
+  ### 403 Forbidden
+
+  The request is understood, but the server is refusing to fulfill it.
+
+  * **Invalid API Key**: The key is incorrect or deactivated.
+
+    *<u>Check for:</u>* Trailing spaces, syntax errors, or incorrect character counts.
+
+  * **API Key Missing**: The request header did not include an API key.
+
+  * **API Key Disabled (Portal Issue)**: The key is inactive.
+
+    *<u>Check for:</u>* Insufficient funds in your self-serve wallet or if a Trestle Admin manually deactivated your API key.
+
+  * **API Key does not have Product Access (Portal Issue)**: The API key is active, but it is not enabled for this product or API version.
+
+    *<u>Check for:</u>* Incorrect endpoint, incorrect API version, or missing product access on the key.
+
+  * **API Key Expired**: The key has reached its end-of-life (primarily affects Trial users).
+
+  ### 429 Too Many Requests
+
+  You have sent too many requests in a given amount of time.
+
+  * **Rate Limit Exceeded**: You have surpassed the queries-per-second (QPS) threshold for your tier.
+
+  * **Quota Exceeded (Portal Issue)**: You have reached the total volume allowed for your current billing cycle. Upgrade your plan in the portal to resume service.
+
+  ### 500 Internal Server Error
+
+  An unexpected error occurred on the server side. Please contact support if this persists.
+</Danger>
+
+
+# Phone Validation API
+Source: https://docs.trestleiq.com/api-reference/phone-validation-api
+
+GET /3.0/phone_intel
+Phone Validation API validates phone numbers and provides phone metadata, including carrier, line type, prepaid status, and a phone activity score to identify disconnected numbers.
+
+<Panel>
+  <RequestExample>
+    ```bash cURL theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    curl --request GET \
+      --url "https://api.trestleiq.com/3.0/phone_intel?phone=2069735100" \
+      --header "x-api-key: YOUR_API_KEY"
+    ```
+
+    ```javascript JavaScript theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    const response = await fetch(
+      "https://api.trestleiq.com/3.0/phone_intel?phone=2069735100",
+      {
+        headers: {
+          "x-api-key": "YOUR_API_KEY",
+        },
+      }
+    );
+    const data = await response.json();
+    ```
+
+    ```javascript Node.js theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    import axios from "axios";
+
+    const { data } = await axios.get(
+      "https://api.trestleiq.com/3.0/phone_intel?phone=2069735100",
+      {
+        headers: {
+          "x-api-key": "YOUR_API_KEY",
+        },
+      }
+    );
+    console.log(data);
+    ```
+
+    ```python Python theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    import requests
+
+    headers = {"x-api-key": "YOUR_API_KEY"}
+
+    response = requests.get(
+        "https://api.trestleiq.com/3.0/phone_intel",
+        params={"phone": "2069735100"},
+        headers=headers,
+        timeout=30,
+    )
+    data = response.json()
+    print(data)
+    ```
+
+    ```csharp C# theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    using var client = new HttpClient();
+    client.DefaultRequestHeaders.Add("x-api-key", "YOUR_API_KEY");
+
+    var response = await client.GetAsync("https://api.trestleiq.com/3.0/phone_intel?phone=2069735100");
+    var body = await response.Content.ReadAsStringAsync();
+    Console.WriteLine(body);
+    ```
+
+    ```go Go theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    package main
+
+    import (
+    	"fmt"
+    	"io"
+    	"net/http"
+    )
+
+    func main() {
+    	req, _ := http.NewRequest("GET", "https://api.trestleiq.com/3.0/phone_intel?phone=2069735100", nil)
+    	req.Header.Set("x-api-key", "YOUR_API_KEY")
+
+    	resp, err := http.DefaultClient.Do(req)
+    	if err != nil {
+    		panic(err)
+    	}
+    	defer resp.Body.Close()
+
+    	body, _ := io.ReadAll(resp.Body)
+    	fmt.Println(string(body))
+    }
+    ```
+
+    ```php PHP theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    <?php
+    $curl = curl_init("https://api.trestleiq.com/3.0/phone_intel?phone=2069735100");
+    curl_setopt($curl, CURLOPT_HTTPHEADER, ["x-api-key: YOUR_API_KEY"]);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+
+    $response = curl_exec($curl);
+    curl_close($curl);
+
+    echo $response;
+    ```
+
+    ```java Java theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    import java.net.URI;
+    import java.net.http.HttpClient;
+    import java.net.http.HttpRequest;
+    import java.net.http.HttpResponse;
+
+    public class PhoneIntelExample {
+      public static void main(String[] args) throws Exception {
+        HttpRequest request =
+            HttpRequest.newBuilder()
+                .uri(URI.create("https://api.trestleiq.com/3.0/phone_intel?phone=2069735100"))
+                .header("x-api-key", "YOUR_API_KEY")
+                .GET()
+                .build();
+
+        HttpResponse<String> response =
+            HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+        System.out.println(response.body());
+      }
+    }
+    ```
+  </RequestExample>
+
+  <ResponseExample>
+    ```json Response Example theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    {
+      "id": "Phone.3dbb6fef-a2df-4b08-cfe3-bc7128b6f5b4",
+      "phone_number": "2069735100",
+      "is_valid": true,
+      "activity_score": 50,
+      "country_calling_code": "1",
+      "country_code": "US",
+      "country_name": "United States",
+      "line_type": "NonFixedVOIP",
+      "carrier": "Level 3 Communications, LLC",
+      "is_prepaid": false,
+      "add_ons": {
+        "litigator_checks": {
+          "phone.is_litigator_risk": true
+        }
+      },
+      "error": {
+        "name": "InternalError",
+        "message": "Could not retrieve entire response"
+      },
+      "warnings": [
+        "Missing Input"
+      ]
+    }
+    ```
+  </ResponseExample>
+</Panel>
+
+## Phone Validation API 3.0
+
+```http theme={"theme":{"light":"github-light","dark":"github-dark"}}
+GET https://api.trestleiq.com/3.0/phone_intel?phone=[insert_phone]
+```
+
+## Query Parameters
+
+<ParamField type="string">
+  The phone number in E.164 or local format. **Example:** `phone=2069735100`
+</ParamField>
+
+<ParamField type="string (ISO-3166-2)">
+  The ISO-3166 alpha-2 country code of the phone number. **Example:** `phone.country_hint=US`
+</ParamField>
+
+<ParamField type="string">
+  Request parameter to enable specific add-ons available for this endpoint. Add-ons incur additional charges. Please see [here](https://trestleiq.com/pricing/) for more details. **Example:** `litigator_checks`
+</ParamField>
+
+## Headers
+
+<ParamField type="string">
+  Your API key for authentication. **Example:** `{{ apiKey }}`
+</ParamField>
+
+## Response
+
+<ResponseField name="id" type="string or null <Phone.<uuid>>">
+  The persistent ID of the phone number.
+</ResponseField>
+
+<ResponseField name="phone_number" type="string or null (PhoneNumber)">
+  The phone number in E.164 or local format. The default country calling code is +1 (USA).
+</ResponseField>
+
+<ResponseField name="is_valid" type="boolean or null">
+  True if the phone number is valid.
+</ResponseField>
+
+<ResponseField name="activity_score" type="integer or null">
+  Trestle's activity scores range from 0 to 100. A score of 100 means consistent activity in the last 12 months, and a score of 0 means a disconnected number or no activity has been seen in the past year.
+
+  An activity score of 70 or above means there is a high confidence that the phone is connected, assigned to a subscriber, and someone has been taking calls consistently. An activity score of 30 or below means there is a high confidence that the phone is either disconnected or no one will answer the call when the number is dialed in. An activity score of 50 means Trestle doesn't have enough signals to predict whether the phone is connected or disconnected/inactive.
+
+  If you want to filter leads based on the activity score, the following rules can be recommended:
+
+  * Prioritize dialing good numbers with consistent activity: Scores 70 or above.
+  * Weed out leads with disconnected/inactive numbers: Scores of 30 or below.
+</ResponseField>
+
+<ResponseField name="country_calling_code" type="string or null <E.164>">
+  The country code of the phone number.
+</ResponseField>
+
+<ResponseField name="country_code" type="string or null (ISO-3166-2)">
+  The ISO-3166 alpha-2 country code of the phone number. See: [ISO-3166](https://www.nationsonline.org/oneworld/country_code_list.htm).
+</ResponseField>
+
+<ResponseField name="country_name" type="string or null">
+  The country name of the location associated with the phone number.
+</ResponseField>
+
+<ResponseField name="line_type" type="string or null">
+  The line type of the phone number. Possible values: \\
+
+  * `Landline` - Traditional wired phone line \\
+  * `Mobile` - Wireless phone line \\
+  * `FixedVOIP` - VOIP number connected to a physical address \\
+  * `NonFixedVOIP` - VOIP number unconnected to a fixed physical address \\
+  * `Premium` - Caller pays a premium for the call \\
+  * `TollFree` - Callee pays for call \\
+  * `Voicemail` - Voicemail-only service \\
+  * `Other` - Line type is unclear
+
+    Enum: <Badge>Landline</Badge> <Badge>Mobile</Badge> <Badge>FixedVOIP</Badge> <Badge>NonFixedVOIP</Badge> <Badge>Premium</Badge> <Badge>TollFree</Badge> <Badge>Voicemail</Badge> <Badge>Other</Badge>
+</ResponseField>
+
+<ResponseField name="carrier" type="string or null">
+  The company that provides voice and/or data services for the phone number.
+</ResponseField>
+
+<ResponseField name="is_prepaid" type="boolean or null">
+  True if the phone is associated with a prepaid account.
+</ResponseField>
+
+<ResponseField name="add_ons" type="object or null">
+  <Expandable title="Add Ons Object">
+    <ResponseField name="litigator_checks" type="object">
+      <Expandable title="litigator_checks Object">
+        <ResponseField name="phone.is_litigator_risk" type="boolean or null">
+          True if the phone subscriber is a TCPA litigator.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="error" type="object(PartialError)">
+  Error details in case of an error.
+
+  <Expandable title="error object">
+    <ResponseField name="name" type="string">
+      Incomplete response due to external timeouts. **value:** "InternalError"
+    </ResponseField>
+
+    <ResponseField name="message" type="string">
+      The error message. **value:** "Could not retrieve entire response"
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="warnings" type="string[]">
+  Warnings returned as part of the response, if applicable.\
+  \
+  Enum: <Badge>Invalid Input</Badge> <Badge>International number. Not authorized</Badge> <Badge>Missing Input</Badge>
+</ResponseField>
+
+<Danger>
+  ## Error Responses
+
+  ### 400 Bad Request
+
+  The server cannot process the request due to client-side errors.
+
+  *<u>Check for:</u>* Syntax errors in the request script, malformed JSON, or invalid parameters.
+
+  ### 403 Forbidden
+
+  The request is understood, but the server is refusing to fulfill it.
+
+  * **Invalid API Key**: The key is incorrect or deactivated.
+
+    *<u>Check for:</u>* Trailing spaces, syntax errors, or incorrect character counts.
+
+  * **API Key Missing**: The request header did not include an API key.
+
+  * **API Key Disabled (Portal Issue)**: The key is inactive.
+
+    *<u>Check for:</u>* Insufficient funds in your self-serve wallet or if a Trestle Admin manually deactivated your API key.
+
+  * **API Key does not have Product Access (Portal Issue)**: The API key is active, but it is not enabled for this product or API version.
+
+    *<u>Check for:</u>* Incorrect endpoint, incorrect API version, or missing product access on the key.
+
+  * **API Key Expired**: The key has reached its end-of-life (primarily affects Trial users).
+
+  ### 429 Too Many Requests
+
+  You have sent too many requests in a given amount of time.
+
+  * **Rate Limit Exceeded**: You have surpassed the queries-per-second (QPS) threshold for your tier.
+
+  * **Quota Exceeded (Portal Issue)**: You have reached the total volume allowed for your current billing cycle. Upgrade your plan in the portal to resume service.
+
+  ### 500 Internal Server Error
+
+  An unexpected error occurred on the server side. Please contact support if this persists.
+</Danger>
+
+
+# Real Contact API
+Source: https://docs.trestleiq.com/api-reference/real-contact-api
+
+GET /2.0/real_contact
+Real Contact API is a comprehensive lead verification API that verifies and grades phone numbers, emails, and addresses. It returns Phone Activity Score, line type, name matches, and IP-based intelligence signals.
+
+<Panel>
+  <RequestExample>
+    ```bash cURL theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    curl --request GET \
+      --url "https://api.trestleiq.com/2.0/real_contact?name=John%20Doe&phone=4259853735&email=john.doe@example.com&ip_address=192.0.0.1" \
+      --header "x-api-key: YOUR_API_KEY"
+    ```
+
+    ```javascript JavaScript theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    const response = await fetch(
+      "https://api.trestleiq.com/2.0/real_contact?name=John%20Doe&phone=4259853735&email=john.doe@example.com&ip_address=192.0.0.1",
+      {
+        headers: {
+          "x-api-key": "YOUR_API_KEY",
+        },
+      }
+    );
+    const data = await response.json();
+    ```
+
+    ```javascript Node.js theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    import axios from "axios";
+
+    const { data } = await axios.get(
+      "https://api.trestleiq.com/2.0/real_contact?name=John%20Doe&phone=4259853735&email=john.doe@example.com&ip_address=192.0.0.1",
+      {
+        headers: {
+          "x-api-key": "YOUR_API_KEY",
+        },
+      }
+    );
+    console.log(data);
+    ```
+
+    ```python Python theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    import requests
+
+    headers = {"x-api-key": "YOUR_API_KEY"}
+    params = {
+        "name": "John Doe",
+        "phone": "4259853735",
+        "email": "john.doe@example.com",
+        "ip_address": "192.0.0.1",
+    }
+
+    response = requests.get(
+        "https://api.trestleiq.com/2.0/real_contact",
+        params=params,
+        headers=headers,
+        timeout=30,
+    )
+    data = response.json()
+    print(data)
+    ```
+
+    ```csharp C# theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    using var client = new HttpClient();
+    client.DefaultRequestHeaders.Add("x-api-key", "YOUR_API_KEY");
+
+    var response = await client.GetAsync("https://api.trestleiq.com/2.0/real_contact?name=John%20Doe&phone=4259853735&email=john.doe@example.com&ip_address=192.0.0.1");
+    var body = await response.Content.ReadAsStringAsync();
+    Console.WriteLine(body);
+    ```
+
+    ```go Go theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    package main
+
+    import (
+     "fmt"
+     "io"
+     "net/http"
+    )
+
+    func main() {
+     req, _ := http.NewRequest("GET", "https://api.trestleiq.com/2.0/real_contact?name=John%20Doe&phone=4259853735&email=john.doe@example.com&ip_address=192.0.0.1", nil)
+     req.Header.Set("x-api-key", "YOUR_API_KEY")
+
+     resp, err := http.DefaultClient.Do(req)
+     if err != nil {
+      panic(err)
+     }
+     defer resp.Body.Close()
+
+     body, _ := io.ReadAll(resp.Body)
+     fmt.Println(string(body))
+    }
+    ```
+
+    ```php PHP theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    <?php
+    $curl = curl_init("https://api.trestleiq.com/2.0/real_contact?name=John%20Doe&phone=4259853735&email=john.doe@example.com&ip_address=192.0.0.1");
+    curl_setopt($curl, CURLOPT_HTTPHEADER, ["x-api-key: YOUR_API_KEY"]);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+
+    $response = curl_exec($curl);
+    curl_close($curl);
+
+    echo $response;
+    ```
+
+    ```java Java theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    import java.net.URI;
+    import java.net.http.HttpClient;
+    import java.net.http.HttpRequest;
+    import java.net.http.HttpResponse;
+
+    public class RealContactExample {
+      public static void main(String[] args) throws Exception {
+        HttpRequest request =
+            HttpRequest.newBuilder()
+                .uri(
+                    URI.create(
+                        "https://api.trestleiq.com/2.0/real_contact?name=John%20Doe&phone=4259853735&email=john.doe@example.com&ip_address=192.0.0.1"))
+                .header("x-api-key", "YOUR_API_KEY")
+                .GET()
+                .build();
+
+        HttpResponse<String> response =
+            HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+        System.out.println(response.body());
+      }
+    }
+    ```
+  </RequestExample>
+
+  <ResponseExample>
+    ```json Response Example theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    {
+      "phone": {
+        "contact_grade": "A",
+        "is_valid": true,
+        "activity_score": 95,
+        "line_type": "Mobile",
+        "name_match": true
+      },
+      "email": {
+        "contact_grade": "A",
+        "is_valid": true,
+        "name_match": true
+      },
+      "address": {
+        "is_valid": true,
+        "name_match": true
+      },
+      "ip_address": {
+        "trust_score": 92,
+        "ip_distance_to_address": 12
+      },
+      "add_ons": {
+        "litigator_checks": {
+          "phone_is_litigator_risk": false
+        },
+        "email_checks": {
+          "email_age_score": 95,
+          "email_is_deliverable": true
+        }
+      },
+      "warnings": [],
+      "errors": null
+    }
+    ```
+  </ResponseExample>
+</Panel>
+
+## Real Contact 2.0
+
+```http theme={"theme":{"light":"github-light","dark":"github-dark"}}
+GET https://api.trestleiq.com/2.0/real_contact?name=[insert_name]&phone=[insert_phone]&email=[insert_email]&address.street_line_1=[insert_street_line_1]&address.city=[insert_city]&address.state_code=[insert_state_code]&address.postal_code=[insert_postal_code]&address.country_code=[insert_country_code]&ip_address=[insert_ip_address]
+```
+
+<Warning>
+  **Note:** Authentication must be provided via the `x-api-key` header. Query
+  parameter authentication is not supported in v2.0.
+</Warning>
+
+## Query Parameters
+
+<ParamField type="string">
+  The name of the person to search. **Example:** `name=John Doe`
+</ParamField>
+
+<ParamField type="string">
+  The business name to search. **Example:** `business.name=The Golden Company`
+</ParamField>
+
+<ParamField type="string">
+  The phone provided by the lead on the web form. **Example:**
+  `phone=4259853735`
+</ParamField>
+
+<ParamField type="string">
+  The email provided by the lead on the web form. **Example:**
+  `email=john.doe@example.com`
+</ParamField>
+
+<ParamField type="string">
+  The first line of the street part in the structured address. **Example:**
+  `address.street_line_1=100 Syrws St`
+</ParamField>
+
+<ParamField type="string">
+  The name of the city in the structured address. **Example:**
+  `address.city=Lynden`
+</ParamField>
+
+<ParamField type="string">
+  The state code of the structured address. **Example:** `address.state_code=WA`
+</ParamField>
+
+<ParamField type="string">
+  The postal code of the structured address. **Example:**
+  `address.postal_code=98229`
+</ParamField>
+
+<ParamField type="string (ISO-3166-2)">
+  The ISO-3166 alpha-2 country code of the address. **Example:**
+  `address.country_code=US`
+</ParamField>
+
+<ParamField type="string">
+  The IP address captured at the time of interaction (web form, sign up, etc.).
+  **Example:** `ip_address=192.0.0.1`
+</ParamField>
+
+<ParamField type="string">
+  Request parameter to enable specific add-ons available for this endpoint. Add-ons incur additional charges. Please see [here](https://trestleiq.com/pricing/) for more details.
+
+  * email\_checks\_deliverability: to enable email deliverability checks in the response
+  * email\_checks\_age: to enable email age score in the response
+  * litigator\_checks: to enable litigator checks in the response
+
+  **Example:** `add_ons=litigator_checks,email_checks_deliverability`
+</ParamField>
+
+## Headers
+
+<ParamField type="string">
+  Your API key for authentication. **Example:** `{{ apiKey }}`
+</ParamField>
+
+## Response
+
+<ResponseField name="phone" type="object">
+  Phone verification and grading results.
+
+  <Expandable title="phone object">
+    <ResponseField name="contact_grade" type="string or null">
+      An A-F grade determining the quality of the lead and whether it is contactable. A Grade-F lead is a bad lead and should be deprioritized while a Grade-A lead is real and contactable and should be prioritized. Read up on contact grades in our [Knowledge Base article](https://trestleiq.com/knowledge-base/explain-real-contact-api-grading/).
+    </ResponseField>
+
+    <ResponseField name="is_valid" type="boolean or null">
+      True if the phone number is valid.
+    </ResponseField>
+
+    <ResponseField name="activity_score" type="integer or null">
+      Trestle's activity scores range from 0 to 100. A score of 100 means consistent activity in the last 12 months, and a score of 0 means a disconnected number or no activity has been seen in the past year.
+
+      An activity score of 70 or above means there is a high confidence that the phone is connected, assigned to a subscriber, and someone has been taking calls consistently. An activity score of 30 or below means there is a high confidence that the phone is either disconnected or no one will answer the call when the number is dialed in. An activity score of 50 means Trestle doesn't have enough signals to predict whether the phone is connected or disconnected/inactive.
+
+      If you want to filter leads based on the activity score, the following rules can be recommended:
+
+      * Prioritize dialing good numbers with consistent activity: Scores 70 or above.
+      * Weed out leads with disconnected/inactive numbers: Scores of 30 or below.
+    </ResponseField>
+
+    <ResponseField name="line_type" type="string or null">
+      The line type of the phone number. Possible values:
+
+      * `Landline` - Traditional wired phone line
+      * `Mobile` - Wireless phone line
+      * `FixedVOIP` - VOIP number connected to a physical address
+      * `NonFixedVOIP` - VOIP number unconnected to a fixed physical address
+      * `Premium` - Caller pays a premium for the call
+      * `TollFree` - Callee pays for call
+      * `Voicemail` - Voicemail-only service
+      * `Other` - Line type is unclear
+
+      Enum: <Badge>Landline</Badge> <Badge>Mobile</Badge> <Badge>FixedVOIP</Badge> <Badge>NonFixedVOIP</Badge> <Badge>Premium</Badge> <Badge>TollFree</Badge> <Badge>Voicemail</Badge> <Badge>Other</Badge>
+    </ResponseField>
+
+    <ResponseField name="name_match" type="boolean or null">
+      A match/no match indicator whether the name provided on the lead form matches to the input phone number according to our database. A match is a positive indicator that verifies the lead is real and is who he/she says they are.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="email" type="object">
+  Email verification and grading results.
+
+  <Expandable title="email object">
+    <ResponseField name="contact_grade" type="string or null">
+      An A-F grade determining the quality of the lead and whether it is
+      contactable via the email provided. Read up on contact grades in our
+      [Knowledge Base
+      article](https://trestleiq.com/knowledge-base/explain-real-contact-api-grading/).
+    </ResponseField>
+
+    <ResponseField name="is_valid" type="boolean or null">
+      True if the email is valid.
+    </ResponseField>
+
+    <ResponseField name="name_match" type="boolean or null">
+      A match/no match indicator whether the name provided on the lead form
+      matches to the input email address according to our database.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="address" type="object">
+  Address verification results.
+
+  <Expandable title="address object">
+    <ResponseField name="is_valid" type="boolean or null">
+      True if the address is valid.
+    </ResponseField>
+
+    <ResponseField name="name_match" type="boolean or null">
+      A match/no match indicator whether the name provided on the lead form
+      matches to the input address according to our database.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="ip_address" type="object or null">
+  IP Trust Score and IP distance results. Returned when an IP address is
+  provided in the request.
+
+  <Expandable title="ip_address object">
+    <ResponseField name="trust_score" type="integer or null">
+      The IP Trust Score is a 0–100 score that evaluates how legitimate an
+      interaction appears based on the user's IP address. It factors in network
+      type (VPN, proxy, data center vs. residential), IP reuse/sharing patterns,
+      and geographic signals to determine whether the lead, contact, or signup
+      is from an authentic source or potentially risky.
+    </ResponseField>
+
+    <ResponseField name="ip_distance_to_address" type="integer or null">
+      The approximate distance (in miles) between the user's IP location and the
+      provided address. This helps assess whether the user's location aligns
+      with the provided contact details. This returns NULL values when
+      confidence in the location accuracy of the IP address is low.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="add_ons" type="object or null">
+  <Expandable title="Add Ons Object">
+    <ResponseField name="litigator_checks" type="object">
+      <Expandable title="litigator_checks">
+        <ResponseField name="phone_is_litigator_risk" type="boolean or null">
+          True if the phone subscriber is a TCPA litigator.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="email_checks" type="object">
+      <Expandable title="email_checks Object">
+        <ResponseField name="email_is_deliverable" type="boolean or null">
+          True if the email is valid and deliverable.
+        </ResponseField>
+
+        <ResponseField name="email_age_score" type="integer or null">
+          A 0-100 score indicating the longevity and activity-level of an email
+          address.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="errors" type="object(PartialError) or null">
+  Error details in case of a partial error, or null if no errors occurred.
+
+  <Expandable title="errors object">
+    <ResponseField name="name" type="string">
+      Incomplete response due to external timeouts. **value:** "InternalError"
+    </ResponseField>
+
+    <ResponseField name="message" type="string">
+      The error message. **value:** "Could not retrieve entire response"
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="warnings" type="string[]">
+  Warnings returned as part of the response, if applicable.
+
+  Enum: <Badge>Missing Input</Badge> <Badge>Missing Unit/Apt/Suite Number</Badge> <Badge>Invalid Address</Badge> <Badge>Invalid House/Building Number</Badge> <Badge>Invalid Unit/Apt/Suite Number</Badge> <Badge>Invalid Phone</Badge> <Badge>Lead is a Litigator. Must not be contacted.</Badge> <Badge>TimeoutError: Timeout getting response for litigator check. Partial response returned.</Badge> <Badge>Invalid Email</Badge> <Badge>Free Email Service Provider</Badge> <Badge>Tumbled Email</Badge> <Badge>Disposible Email</Badge> <Badge>Privacy Email</Badge> <Badge>Email is a spam trap</Badge> <Badge>Potential Junk Email</Badge> <Badge>Role Based Email</Badge> <Badge>Undeliverable Email</Badge> <Badge>Domain is a catch all and does not support validation</Badge> <Badge>Could not validate email</Badge> <Badge>TimeoutError: Timeout getting a response from the email server for email deliverability check</Badge> <Badge>Input IP address is invalid. Please provide a valid IPv4 or IPv6 address</Badge> <Badge>Timeout getting response for IP information. Partial response returned</Badge>
+</ResponseField>
+
+<Danger>
+  ## Error Responses
+
+  ### 400 Bad Request
+
+  The server cannot process the request due to client-side errors.
+
+  *<u>Check for:</u>* Syntax errors in the request script, malformed JSON, or invalid parameters.
+
+  ### 403 Forbidden
+
+  The request is understood, but the server is refusing to fulfill it.
+
+  * **Invalid API Key**: The key is incorrect or deactivated.
+
+    *<u>Check for:</u>* Trailing spaces, syntax errors, or incorrect character counts.
+
+  * **API Key Missing**: The request header did not include an API key.
+
+  * **API Key Disabled (Portal Issue)**: The key is inactive.
+
+    *<u>Check for:</u>* Insufficient funds in your self-serve wallet or if a Trestle Admin manually deactivated your API key.
+
+  * **API Key does not have Product Access (Portal Issue)**: The API key is active, but it is not enabled for this product or API version.
+
+    *<u>Check for:</u>* Incorrect endpoint, incorrect API version, or missing product access on the key.
+
+  * **API Key Expired**: The key has reached its end-of-life (primarily affects Trial users).
+
+  ### 429 Too Many Requests
+
+  You have sent too many requests in a given amount of time.
+
+  * **Rate Limit Exceeded**: You have surpassed the queries-per-second (QPS) threshold for your tier.
+
+  * **Quota Exceeded (Portal Issue)**: You have reached the total volume allowed for your current billing cycle. Upgrade your plan in the portal to resume service.
+
+  ### 500 Internal Server Error
+
+  An unexpected error occurred on the server side. Please contact support if this persists.
+</Danger>
+
+
+# Real Contact API 1.1
+Source: https://docs.trestleiq.com/api-reference/real-contact-api-v1-1
+
+GET /1.1/real_contact
+Real Contact API verifies and grades phone numbers, emails, and addresses and delivers essential insights, including a phone activity score, line types, name matches for phone, email, and address, and phone and email contact grades.
+
+<Panel>
+  <RequestExample>
+    ```bash cURL theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    curl --request GET \
+      --url "https://api.trestleiq.com/1.1/real_contact?name=John%20Doe&phone=4259853735&email=john.doe@example.com" \
+      --header "x-api-key: YOUR_API_KEY"
+    ```
+
+    ```javascript JavaScript theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    const response = await fetch(
+      "https://api.trestleiq.com/1.1/real_contact?name=John%20Doe&phone=4259853735&email=john.doe@example.com",
+      {
+        headers: {
+          "x-api-key": "YOUR_API_KEY",
+        },
+      }
+    );
+    const data = await response.json();
+    ```
+
+    ```javascript Node.js theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    import axios from "axios";
+
+    const { data } = await axios.get(
+      "https://api.trestleiq.com/1.1/real_contact?name=John%20Doe&phone=4259853735&email=john.doe@example.com",
+      {
+        headers: {
+          "x-api-key": "YOUR_API_KEY",
+        },
+      }
+    );
+    console.log(data);
+    ```
+
+    ```python Python theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    import requests
+
+    headers = {"x-api-key": "YOUR_API_KEY"}
+    params = {
+        "name": "John Doe",
+        "phone": "4259853735",
+        "email": "john.doe@example.com",
+    }
+
+    response = requests.get(
+        "https://api.trestleiq.com/1.1/real_contact",
+        params=params,
+        headers=headers,
+        timeout=30,
+    )
+    data = response.json()
+    print(data)
+    ```
+
+    ```csharp C# theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    using var client = new HttpClient();
+    client.DefaultRequestHeaders.Add("x-api-key", "YOUR_API_KEY");
+
+    var response = await client.GetAsync("https://api.trestleiq.com/1.1/real_contact?name=John%20Doe&phone=4259853735&email=john.doe@example.com");
+    var body = await response.Content.ReadAsStringAsync();
+    Console.WriteLine(body);
+    ```
+
+    ```go Go theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    package main
+
+    import (
+    	"fmt"
+    	"io"
+    	"net/http"
+    )
+
+    func main() {
+    	req, _ := http.NewRequest("GET", "https://api.trestleiq.com/1.1/real_contact?name=John%20Doe&phone=4259853735&email=john.doe@example.com", nil)
+    	req.Header.Set("x-api-key", "YOUR_API_KEY")
+
+    	resp, err := http.DefaultClient.Do(req)
+    	if err != nil {
+    		panic(err)
+    	}
+    	defer resp.Body.Close()
+
+    	body, _ := io.ReadAll(resp.Body)
+    	fmt.Println(string(body))
+    }
+    ```
+
+    ```php PHP theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    <?php
+    $curl = curl_init("https://api.trestleiq.com/1.1/real_contact?name=John%20Doe&phone=4259853735&email=john.doe@example.com");
+    curl_setopt($curl, CURLOPT_HTTPHEADER, ["x-api-key: YOUR_API_KEY"]);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+
+    $response = curl_exec($curl);
+    curl_close($curl);
+
+    echo $response;
+    ```
+
+    ```java Java theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    import java.net.URI;
+    import java.net.http.HttpClient;
+    import java.net.http.HttpRequest;
+    import java.net.http.HttpResponse;
+
+    public class RealContactExample {
+      public static void main(String[] args) throws Exception {
+        HttpRequest request =
+            HttpRequest.newBuilder()
+                .uri(
+                    URI.create(
+                        "https://api.trestleiq.com/1.1/real_contact?name=John%20Doe&phone=4259853735&email=john.doe@example.com"))
+                .header("x-api-key", "YOUR_API_KEY")
+                .GET()
+                .build();
+
+        HttpResponse<String> response =
+            HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+        System.out.println(response.body());
+      }
+    }
+    ```
+  </RequestExample>
+
+  <ResponseExample>
+    ```json Response Example theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    {
+      "phone.is_valid": true,
+      "phone.activity_score": 57,
+      "phone.line_type": "Mobile",
+      "phone.name_match": true,
+      "phone.contact_grade": "A",
+      "email.is_valid": true,
+      "email.name_match": true,
+      "email.contact_grade": "F",
+      "address.is_valid": true,
+      "address.name_match": true,
+      "add_ons": {
+        "litigator_checks": {
+          "phone.is_litigator_risk": false
+        },
+        "email_checks": {
+          "email.is_deliverable": false,
+          "email.age_score": 70
+        }
+      },
+      "error": {
+        "name": "InternalError",
+        "message": "Could not retrieve entire response"
+      },
+      "warnings": [
+        "Missing Input"
+      ]
+    }
+    ```
+  </ResponseExample>
+</Panel>
+
+## Real Contact 1.1
+
+```http theme={"theme":{"light":"github-light","dark":"github-dark"}}
+GET https://api.trestleiq.com/1.1/real_contact?api_key=[insert_key]&name=[insert_name]&phone=[insert_phone]&email=[insert_email]&ip_address=[insert_ip_address]&address.street_line_1=[insert_street_line_1]&address.city=[insert_city]&address.state_code=[insert_state_code]&address.postal_code=[insert_postal_code]&address.country_code=[insert_country_code]
+```
+
+## Query Parameters
+
+<ParamField type="string">
+  The name of the person to search. **Example:** `name=John Doe`
+</ParamField>
+
+<ParamField type="string">
+  The business name to search. **Example:** `business.name=The Golden Company`
+</ParamField>
+
+<ParamField type="string">
+  The phone provided by the lead on the web form. **Example:** `phone=4259853735`
+</ParamField>
+
+<ParamField type="string">
+  The email provided by the lead on the web form. **Example:** `email=john.doe@example.com`
+</ParamField>
+
+<ParamField type="string">
+  The IP address from which the lead signed up on the web form. **Example:** `ip_address=192.0.0.1`
+</ParamField>
+
+<ParamField type="string">
+  The first line of the street part in the structured address. **Example:** `address.street_line_1=100 Syrws St`
+</ParamField>
+
+<ParamField type="string">
+  The name of the city in the structured address. **Example:** `address.city=Lynden`
+</ParamField>
+
+<ParamField type="string">
+  The state code of the structured address. **Example:** `address.state_code=WA`
+</ParamField>
+
+<ParamField type="string">
+  The postal code of the structured address. **Example:** `address.postal_code=98229`
+</ParamField>
+
+<ParamField type="string (ISO-3166-2)">
+  The ISO-3166 alpha-2 country code of the address. **Example:** `address.country_code=US`
+</ParamField>
+
+<ParamField type="string">
+  Request parameter to enable specific add-ons available for this endpoint. Add-ons incur additional charges. Please see [here](https://trestleiq.com/pricing/) for more details.
+
+  * email\_checks\_deliverability: to enable email deliverability checks in the response
+  * email\_checks\_age: to enable email age score in the response
+  * litigator\_checks: to enable litigator checks in the response
+
+  **Example:** `add_ons=litigator_checks,email_checks_deliverability`
+</ParamField>
+
+## Headers
+
+<ParamField type="string">
+  Your API key for authentication. **Example:** `{{ apiKey }}`
+</ParamField>
+
+## Response
+
+<ResponseField name="phone.is_valid" type="boolean or null">
+  True if the phone number is valid.
+</ResponseField>
+
+<ResponseField name="phone.activity_score" type="integer or null">
+  Trestle's activity scores range from 0 to 100. A score of 100 means consistent activity in the last 12 months, and a score of 0 means a disconnected number or no activity has been seen in the past year.
+
+  An activity score of 70 or above means there is a high confidence that the phone is connected, assigned to a subscriber, and someone has been taking calls consistently. An activity score of 30 or below means there is a high confidence that the phone is either disconnected or no one will answer the call when the number is dialed in. An activity score of 50 means Trestle doesn't have enough signals to predict whether the phone is connected or disconnected/inactive.
+
+  If you want to filter leads based on the activity score, the following rules can be recommended:
+
+  * Prioritize dialing good numbers with consistent activity: Scores 70 or above.
+  * Weed out leads with disconnected/inactive numbers: Scores of 30 or below.
+</ResponseField>
+
+<ResponseField name="phone.line_type" type="string or null">
+  The line type of the phone number. Possible values:
+
+  * `Landline` - Traditional wired phone line
+  * `Mobile` - Wireless phone line
+  * `FixedVOIP` - VOIP number connected to a physical address
+  * `NonFixedVOIP` - VOIP number unconnected to a fixed physical address
+  * `Premium` - Caller pays a premium for the call
+  * `TollFree` - Callee pays for call
+  * `Voicemail` - Voicemail-only service
+  * `Other` - Line type is unclear
+
+  Enum: <Badge>Landline</Badge> <Badge>Mobile</Badge> <Badge>FixedVOIP</Badge> <Badge>NonFixedVOIP</Badge> <Badge>Premium</Badge> <Badge>TollFree</Badge> <Badge>Voicemail</Badge> <Badge>Other</Badge>
+</ResponseField>
+
+<ResponseField name="phone.name_match" type="boolean or null">
+  A match/no match indicator whether the name provided on the lead form matches to the input phone number according to our database. A match is a positive indicator that verifies the lead is real and is who he/she says they are.
+</ResponseField>
+
+<ResponseField name="phone.contact_grade" type="string or null">
+  An A-F grade determining the quality of the lead and whether it is contactable. A Grade-F lead is a bad lead and should be deprioritized while a Grade-A lead is real and contactable and should be prioritized. Read up on contact grades in our [Knowledge Base article](https://trestleiq.com/knowledge-base/explain-real-contact-api-grading/).
+</ResponseField>
+
+<ResponseField name="email.is_valid" type="boolean or null">
+  True if the email is valid.
+</ResponseField>
+
+<ResponseField name="email.name_match" type="boolean or null">
+  A match/no match indicator whether the name provided on the lead form matches to the input email address according to our database.
+</ResponseField>
+
+<ResponseField name="email.contact_grade" type="string or null">
+  An A-F grade determining the quality of the lead and whether it is contactable via the email provided. Read up on contact grades in our [Knowledge Base article](https://trestleiq.com/knowledge-base/explain-real-contact-api-grading/).
+</ResponseField>
+
+<ResponseField name="address.is_valid" type="boolean or null">
+  True if the address is valid.
+</ResponseField>
+
+<ResponseField name="address.name_match" type="boolean or null">
+  A match/no match indicator whether the name provided on the lead form matches to the input address according to our database.
+</ResponseField>
+
+<ResponseField name="add_ons" type="object or null">
+  <Expandable title="Add Ons Object">
+    <ResponseField name="litigator_checks" type="object">
+      <Expandable title="litigator_checks">
+        <ResponseField name="phone.is_litigator_risk" type="boolean or null">
+          True if the phone subscriber is a TCPA litigator.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="email_checks" type="object">
+      <Expandable title="email_checks Object">
+        <ResponseField name="email.is_deliverable" type="boolean or null">
+          True if the email is valid and deliverable.
+        </ResponseField>
+
+        <ResponseField name="email.age_score" type="integer or null">
+          A 0-100 score indicating the longevity and activity-level of an email address.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="error" type="object(PartialError)">
+  Error details in case of an error.
+
+  <Expandable title="error object">
+    <ResponseField name="name" type="string">
+      Incomplete response due to external timeouts. **value:** "InternalError"
+    </ResponseField>
+
+    <ResponseField name="message" type="string">
+      The error message. **value:** "Could not retrieve entire response"
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="warnings" type="string[]">
+  Warnings returned as part of the response, if applicable.
+
+  Enum: <Badge>Missing Input</Badge> <Badge>Missing Unit/Apt/Suite Number</Badge> <Badge>Invalid Address</Badge> <Badge>Invalid House/Building Number</Badge> <Badge>Invalid Unit/Apt/Suite Number</Badge> <Badge>Invalid Phone</Badge> <Badge>Lead is a Litigator. Must not be contacted.</Badge> <Badge>TimeoutError: Timeout getting response for litigator check. Partial response returned.</Badge> <Badge>Invalid Email</Badge> <Badge>Free Email Service Provider</Badge> <Badge>Tumbled Email</Badge> <Badge>Disposible Email</Badge> <Badge>Privacy Email</Badge> <Badge>Email is a spam trap</Badge> <Badge>Potential Junk Email</Badge> <Badge>Role Based Email</Badge> <Badge>Undeliverable Email</Badge> <Badge>Domain is a catch all and does not support validation</Badge> <Badge>Could not validate email</Badge> <Badge>TimeoutError: Timeout getting a response from the email server for email deliverability check</Badge>
+</ResponseField>
+
+<Danger>
+  ## Error Responses
+
+  ### 400 Bad Request
+
+  The server cannot process the request due to client-side errors.
+
+  *<u>Check for:</u>* Syntax errors in the request script, malformed JSON, or invalid parameters.
+
+  ### 403 Forbidden
+
+  The request is understood, but the server is refusing to fulfill it.
+
+  * **Invalid API Key**: The key is incorrect or deactivated.
+
+    *<u>Check for:</u>* Trailing spaces, syntax errors, or incorrect character counts.
+
+  * **API Key Missing**: The request header did not include an API key.
+
+  * **API Key Disabled (Portal Issue)**: The key is inactive.
+
+    *<u>Check for:</u>* Insufficient funds in your self-serve wallet or if a Trestle Admin manually deactivated your API key.
+
+  * **API Key does not have Product Access (Portal Issue)**: The API key is active, but it is not enabled for this product or API version.
+
+    *<u>Check for:</u>* Incorrect endpoint, incorrect API version, or missing product access on the key.
+
+  * **API Key Expired**: The key has reached its end-of-life (primarily affects Trial users).
+
+  ### 429 Too Many Requests
+
+  You have sent too many requests in a given amount of time.
+
+  * **Rate Limit Exceeded**: You have surpassed the queries-per-second (QPS) threshold for your tier.
+
+  * **Quota Exceeded (Portal Issue)**: You have reached the total volume allowed for your current billing cycle. Upgrade your plan in the portal to resume service.
+
+  ### 500 Internal Server Error
+
+  An unexpected error occurred on the server side. Please contact support if this persists.
+</Danger>
+
+
+# Reverse Address API
+Source: https://docs.trestleiq.com/api-reference/reverse-address-api
+
+GET /3.1/location
+Reverse Address API validates and normalizes input addresses while providing comprehensive insights into current residents' information, including demographics, historical addresses, relatives and associated people, phone numbers, and associated email addresses.
+
+<Panel>
+  <RequestExample>
+    ```bash cURL theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    curl --request GET \
+      --url "https://api.trestleiq.com/3.1/location?address.street_line_1=100%20Main%20St&address.city=Seattle&address.state_code=WA&address.postal_code=98101" \
+      --header "x-api-key: YOUR_API_KEY"
+    ```
+
+    ```javascript JavaScript theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    const response = await fetch(
+      "https://api.trestleiq.com/3.1/location?address.street_line_1=100%20Main%20St&address.city=Seattle&address.state_code=WA&address.postal_code=98101",
+      {
+        headers: {
+          "x-api-key": "YOUR_API_KEY",
+        },
+      }
+    );
+    const data = await response.json();
+    ```
+
+    ```javascript Node.js theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    import axios from "axios";
+
+    const { data } = await axios.get(
+      "https://api.trestleiq.com/3.1/location?address.street_line_1=100%20Main%20St&address.city=Seattle&address.state_code=WA&address.postal_code=98101",
+      {
+        headers: {
+          "x-api-key": "YOUR_API_KEY",
+        },
+      }
+    );
+    console.log(data);
+    ```
+
+    ```python Python theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    import requests
+
+    headers = {"x-api-key": "YOUR_API_KEY"}
+    params = {
+        "address.street_line_1": "100 Main St",
+        "address.city": "Seattle",
+        "address.state_code": "WA",
+        "address.postal_code": "98101",
+    }
+
+    response = requests.get(
+        "https://api.trestleiq.com/3.1/location",
+        params=params,
+        headers=headers,
+        timeout=30,
+    )
+    data = response.json()
+    print(data)
+    ```
+
+    ```csharp C# theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    using var client = new HttpClient();
+    client.DefaultRequestHeaders.Add("x-api-key", "YOUR_API_KEY");
+
+    var response = await client.GetAsync("https://api.trestleiq.com/3.1/location?address.street_line_1=100%20Main%20St&address.city=Seattle&address.state_code=WA&address.postal_code=98101");
+    var body = await response.Content.ReadAsStringAsync();
+    Console.WriteLine(body);
+    ```
+
+    ```go Go theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    package main
+
+    import (
+    	"fmt"
+    	"io"
+    	"net/http"
+    )
+
+    func main() {
+    	req, _ := http.NewRequest("GET", "https://api.trestleiq.com/3.1/location?address.street_line_1=100%20Main%20St&address.city=Seattle&address.state_code=WA&address.postal_code=98101", nil)
+    	req.Header.Set("x-api-key", "YOUR_API_KEY")
+
+    	resp, err := http.DefaultClient.Do(req)
+    	if err != nil {
+    		panic(err)
+    	}
+    	defer resp.Body.Close()
+
+    	body, _ := io.ReadAll(resp.Body)
+    	fmt.Println(string(body))
+    }
+    ```
+
+    ```php PHP theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    <?php
+    $curl = curl_init("https://api.trestleiq.com/3.1/location?address.street_line_1=100%20Main%20St&address.city=Seattle&address.state_code=WA&address.postal_code=98101");
+    curl_setopt($curl, CURLOPT_HTTPHEADER, ["x-api-key: YOUR_API_KEY"]);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+
+    $response = curl_exec($curl);
+    curl_close($curl);
+
+    echo $response;
+    ```
+
+    ```java Java theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    import java.net.URI;
+    import java.net.http.HttpClient;
+    import java.net.http.HttpRequest;
+    import java.net.http.HttpResponse;
+
+    public class ReverseAddressExample {
+      public static void main(String[] args) throws Exception {
+        HttpRequest request =
+            HttpRequest.newBuilder()
+                .uri(
+                    URI.create(
+                        "https://api.trestleiq.com/3.1/location?address.street_line_1=100%20Main%20St&address.city=Seattle&address.state_code=WA&address.postal_code=98101"))
+                .header("x-api-key", "YOUR_API_KEY")
+                .GET()
+                .build();
+
+        HttpResponse<String> response =
+            HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+        System.out.println(response.body());
+      }
+    }
+    ```
+  </RequestExample>
+
+  <ResponseExample>
+    ```json Response Example theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    {
+      "id": "Location.d1a40ed5-a70a-46f8-80a9-bb4ac27e3a01",
+      "is_valid": true,
+      "street_line_1": "100 Syrws St",
+      "street_line_2": "Ste 1",
+      "city": "Lynden",
+      "postal_code": "98264",
+      "zip4": "98264-9999",
+      "state_code": "WA",
+      "country_code": "US",
+      "lat_long": {
+        "latitude": 0,
+        "longitude": 0,
+        "accuracy": "Neighborhood"
+      },
+      "is_active": true,
+      "is_commercial": true,
+      "delivery_point": "SingleUnit",
+      "current_residents": [
+        {
+          "id": "Person.fffdcf06-0929-4b5a-9921-ee49b101ca84",
+          "name": "Waidong L Syrws",
+          "firstname": "Waidong",
+          "middlename": "L",
+          "lastname": "Syrws",
+          "alternate_names": [
+            "Sryws W L"
+          ],
+          "age_range": "25-29",
+          "gender": null,
+          "type": "Person",
+          "industry": null,
+          "link_to_address_start_date": "2023-01-02",
+          "phones": [
+            {
+              "id": "Phone.3dbb6fef-a2df-4b08-cfe3-bc7128b6f5b4",
+              "phone_number": "2069735100",
+              "line_type": "NonFixedVOIP"
+            }
+          ],
+          "emails": [
+            "waidong.syrws@email.com"
+          ],
+          "historical_addresses": [
+            {
+              "id": "Location.d1a40ed5-a70a-46f8-80a9-bb4ac27e3a01",
+              "location_type": "Address",
+              "street_line_1": "10 Main St",
+              "street_line_2": "Ste 1",
+              "city": "Lynden",
+              "postal_code": "98264",
+              "zip4": "98264-9999",
+              "state_code": "WA",
+              "country_code": "US",
+              "lat_long": {
+                "latitude": 0,
+                "longitude": 0,
+                "accuracy": "Neighborhood"
+              },
+              "is_active": true,
+              "delivery_point": "SingleUnit",
+              "link_to_person_start_date": "2011-10-05",
+              "link_to_person_end_date": null
+            }
+          ],
+          "associated_people": [
+            {
+              "id": "Person.fffdcf06-0929-4b5a-9921-ee49b101ca84",
+              "name": "Waidong L Syrws",
+              "firstname": "Waidong",
+              "middlename": "L",
+              "lastname": "Syrws",
+              "relation": "Household"
+            }
+          ]
+        }
+      ],
+      "error": {
+        "name": "InternalError",
+        "message": "Could not retrieve entire response"
+      },
+      "warnings": [
+        "Missing Input"
+      ]
+    }
+    ```
+  </ResponseExample>
+</Panel>
+
+## Reverse Address 3.1
+
+```http theme={"theme":{"light":"github-light","dark":"github-dark"}}
+GET https://api.trestleiq.com/3.1/location?api_key=[insert_key]&city=[insert_city]&postal_code=[insert_postal_code]&state_code=[insert_state_code]&street_line_1=[insert_street_line_1]
+```
+
+## Query Parameters
+
+<ParamField type="string">
+  The first line of the street part in the structured address. Cannot be longer than 1000 characters. **Example:** `street_line_1=100 Syrws St`
+</ParamField>
+
+<ParamField type="string">
+  The second line of the street part in the structured address. Cannot be longer than 1000 characters. **Example:** `street_line_2=Ste 1`
+</ParamField>
+
+<ParamField type="string">
+  The name of the city in the structured address. Cannot be longer than 500 characters. **Example:** `city=Seattle`
+</ParamField>
+
+<ParamField type="string">
+  The state code of the structured address. Cannot be longer than 100 characters. **Example:** `state_code=WA`
+</ParamField>
+
+<ParamField type="string">
+  The postal code of the structured address. Cannot be longer than 100 characters. **Example:** `postal_code=98101`
+</ParamField>
+
+<ParamField type="string (ISO-3166-2)">
+  The ISO-3166 alpha-2 country code of the address. Cannot be longer than 100 characters. **Example:** `country_code=US`
+</ParamField>
+
+## Headers
+
+<ParamField type="string">
+  Your API key for authentication. **Example:** `{{ apiKey }}`
+</ParamField>
+
+## Response
+
+<ResponseField name="id" type="string or null <Location.<uuid>>">
+  The persistent ID of the address.
+</ResponseField>
+
+<ResponseField name="is_valid" type="boolean or null">
+  True if the address is valid.
+</ResponseField>
+
+<ResponseField name="street_line_1" type="string or null">
+  The first line of the street part in the structured address.
+</ResponseField>
+
+<ResponseField name="street_line_2" type="string or null">
+  The second line of the street part in the structured address.
+</ResponseField>
+
+<ResponseField name="city" type="string or null">
+  The name of the city in the structured address.
+</ResponseField>
+
+<ResponseField name="postal_code" type="string or null">
+  The postal code of the structured address.
+</ResponseField>
+
+<ResponseField name="state_code" type="string or null">
+  The state code of the structured address.
+</ResponseField>
+
+<ResponseField name="zip4" type="string or null ^\d+-\d{4}$">
+  The ZIP+4 code of the structured address (USA).
+</ResponseField>
+
+<ResponseField name="country_code" type="string or null (ISO-3166-2)">
+  The ISO-3166 alpha-2 country code of the address.
+</ResponseField>
+
+<ResponseField name="lat_long" type="object or null">
+  The coordinates of the geographical location of the address.
+
+  <Expandable title="lat_long object">
+    <ResponseField name="latitude" type="number or null <double>">
+      The latitude coordinate of the location.
+    </ResponseField>
+
+    <ResponseField name="longitude" type="number or null <double>">
+      The longitude coordinate of the location.
+    </ResponseField>
+
+    <ResponseField name="accuracy" type="string or null">
+      The accuracy of the geographical location. Enum: <Badge>Country</Badge> <Badge>State</Badge> <Badge>City</Badge> <Badge>PostalCode</Badge> <Badge>Neighborhood</Badge> <Badge>Street</Badge> <Badge>RoofTop</Badge>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="is_active" type="boolean or null">
+  True if the address is currently receiving mail.
+</ResponseField>
+
+<ResponseField name="is_commercial" type="boolean or null">
+  True if the address is a business address.
+</ResponseField>
+
+<ResponseField name="delivery_point" type="string or null (DeliveryPoint)">
+  The type of the delivery point of the address. Enum: <Badge>SingleUnit</Badge> <Badge>MultiUnit</Badge> <Badge>POBox</Badge> <Badge>PartialAddress</Badge>
+</ResponseField>
+
+<ResponseField name="current_residents" type="object[]">
+  The list of current person and business residents at the address.
+
+  <Expandable title="owner object">
+    <ResponseField name="id" type="string or null <Person.<uuid>>">
+      The persistent ID of the address.
+    </ResponseField>
+
+    <ResponseField name="name" type="string or null">
+      The full name of the person.
+    </ResponseField>
+
+    <ResponseField name="firstname" type="string or null (FirstName)">
+      The first name of the person.
+    </ResponseField>
+
+    <ResponseField name="middlename" type="string or null (MiddleName)">
+      The middle name (or middle initial) of the person.
+    </ResponseField>
+
+    <ResponseField name="lastname" type="string or null (LastName)">
+      The last name of the person.
+    </ResponseField>
+
+    <ResponseField name="alternate_names" type="string[]">
+      Alternate names of the person associated with the phone.
+    </ResponseField>
+
+    <ResponseField name="age_range" type="string or null (AgeRange)">
+      The age of the person in a 5-year range.
+    </ResponseField>
+
+    <ResponseField name="gender" type="string or null (Gender)">
+      The gender of the person.
+    </ResponseField>
+
+    <ResponseField name="type" type="string">
+      The type of the legal entity.
+
+      * Person: The legal entity is a person.
+      * Business: The legal entity is a company. \
+        \
+        Enum: <Badge>Person</Badge> <Badge>Business</Badge>
+    </ResponseField>
+
+    <ResponseField name="link_to_phone_start_date" type="string or null">
+      The date when the person was first linked to the phone number.
+    </ResponseField>
+
+    <ResponseField name="industry" type="string[] or null">
+      The industry classification of the business associated to the phone.
+    </ResponseField>
+
+    <ResponseField name="phones" type="object[]">
+      The phone numbers associated with the person.
+
+      <Expandable title="phone object">
+        <ResponseField name="id" type="string or null <Phone.<uuid>>">
+          The persistent ID of the phone number.
+        </ResponseField>
+
+        <ResponseField name="phone_number" type="string or null (PhoneNumber)">
+          The phone number in E.164 or local format. The default country calling code is +1 (USA).
+        </ResponseField>
+
+        <ResponseField name="line_type" type="string or null">
+          The line type of the phone number. Possible values: \\
+
+          * `Landline` - Traditional wired phone line \\
+          * `Mobile` - Wireless phone line \\
+          * `FixedVOIP` - VOIP number connected to a physical address \\
+          * `NonFixedVOIP` - VOIP number unconnected to a fixed physical address \\
+          * `Premium` - Caller pays a premium for the call \\
+          * `TollFree` - Callee pays for call \\
+          * `Voicemail` - Voicemail-only service \\
+          * `Other` - Line type is unclear \
+            \
+            Enum: <Badge>Landline</Badge> <Badge>Mobile</Badge> <Badge>FixedVOIP</Badge> <Badge>NonFixedVOIP</Badge> <Badge>Premium</Badge> <Badge>TollFree</Badge> <Badge>Voicemail</Badge> <Badge>Other</Badge>
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="emails" type="string[]">
+      The list of emails associated to the primary owner of the phone.
+    </ResponseField>
+
+    <ResponseField name="historical_addresses" type="object[]">
+      A list of historical addresses associated with the current resident of the input address.
+
+      <Expandable title="address object">
+        <ResponseField name="id" type="string or null <Location.<uuid>>">
+          The persistent ID of the address.
+        </ResponseField>
+
+        <ResponseField name="location_type" type="string or null">
+          The type of the location. Enum: <Badge>Country</Badge> <Badge>State</Badge> <Badge>City</Badge> <Badge>PostalCode</Badge> <Badge>ZipPlus4</Badge> <Badge>C</Badge> <Badge>Address</Badge>
+        </ResponseField>
+
+        <ResponseField name="street_line_1" type="string or null">
+          The first line of the street part in the structured address.
+        </ResponseField>
+
+        <ResponseField name="street_line_2" type="string or null">
+          The second line of the street part in the structured address.
+        </ResponseField>
+
+        <ResponseField name="city" type="string or null">
+          The city associated with the address.
+        </ResponseField>
+
+        <ResponseField name="postal_code" type="string or null">
+          The postal code of the structured address.
+        </ResponseField>
+
+        <ResponseField name="zip4" type="string or null ^\d+-\d{4}$">
+          The ZIP+4 code of the structured address (USA).
+        </ResponseField>
+
+        <ResponseField name="state_code" type="string or null">
+          The state code of the structured address.
+        </ResponseField>
+
+        <ResponseField name="country_code" type="string or null (ISO-3166-2)">
+          The ISO-3166 alpha-2 country code of the phone number. See:[ISO-3166](https://www.nationsonline.org/oneworld/country_code_list.htm).
+        </ResponseField>
+
+        <ResponseField name="lat_long" type="object or null">
+          The coordinates of the geographical location of the address.
+
+          <Expandable title="lat_long object">
+            <ResponseField name="latitude" type="number or null <double>">
+              The latitude coordinate of the location.
+            </ResponseField>
+
+            <ResponseField name="longitude" type="number or null <double>">
+              The longitude coordinate of the location.
+            </ResponseField>
+
+            <ResponseField name="accuracy" type="string or null">
+              The accuracy of the geographical location. Enum: <Badge>Country</Badge> <Badge>State</Badge> <Badge>City</Badge> <Badge>PostalCode</Badge> <Badge>Neighborhood</Badge> <Badge>Street</Badge> <Badge>RoofTop</Badge>
+            </ResponseField>
+          </Expandable>
+        </ResponseField>
+
+        <ResponseField name="is_active" type="boolean or null">
+          True if the address is currently receiving mail.
+        </ResponseField>
+
+        <ResponseField name="delivery_point" type="string or null (DeliveryPoint)">
+          The type of the delivery point of the address. Enum: <Badge>SingleUnit</Badge> <Badge>MultiUnit</Badge> <Badge>POBox</Badge> <Badge>PartialAddress</Badge>
+        </ResponseField>
+
+        <ResponseField name="link_to_person_start_date" type="string or null (LinkToPersonStartDate)">
+          The date when the address was first linked to the person.
+        </ResponseField>
+
+        <ResponseField name="link_to_person_end_date" type="string or null">
+          The date when the address was last linked to the person.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="associated_people" type="object[]">
+      A list of people associated to the current home owner.
+
+      <Expandable title="people object">
+        <ResponseField name="id" type="string or null <Person.<uuid>>">
+          The persistent ID of the person.
+        </ResponseField>
+
+        <ResponseField name="name" type="string or null">
+          The full name of the associated person.
+        </ResponseField>
+
+        <ResponseField name="firstname" type="string or null">
+          The first name of the associated person.
+        </ResponseField>
+
+        <ResponseField name="middlename" type="string or null">
+          The middle name of the associated person.
+        </ResponseField>
+
+        <ResponseField name="lastname" type="string or null">
+          The last name of the associated person.
+        </ResponseField>
+
+        <ResponseField name="relation" type="string or null">
+          The relationship between the address owner and the associated person.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="error" type="object(PartialError)">
+  Error details in case of an error.
+
+  <Expandable title="error object">
+    <ResponseField name="name" type="string">
+      Incomplete response due to external timeouts. **value:** "InternalError"
+    </ResponseField>
+
+    <ResponseField name="message" type="string">
+      The error message. **value:** "Could not retrieve entire response"
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="warnings" type="string[]">
+  Warnings returned as part of the response, if applicable.\
+  \
+  Enum: <Badge>Invalid Address</Badge> <Badge>Missing Input</Badge> <Badge>Invalid house/building number</Badge> <Badge>Missing unit/apt/suite number</Badge> <Badge>Invalid unit/apt/suite number</Badge>
+</ResponseField>
+
+<Danger>
+  ## Error Responses
+
+  ### 400 Bad Request
+
+  The server cannot process the request due to client-side errors.
+
+  *<u>Check for:</u>* Syntax errors in the request script, malformed JSON, or invalid parameters.
+
+  ### 403 Forbidden
+
+  The request is understood, but the server is refusing to fulfill it.
+
+  * **Invalid API Key**: The key is incorrect or deactivated.
+
+    *<u>Check for:</u>* Trailing spaces, syntax errors, or incorrect character counts.
+
+  * **API Key Missing**: The request header did not include an API key.
+
+  * **API Key Disabled (Portal Issue)**: The key is inactive.
+
+    *<u>Check for:</u>* Insufficient funds in your self-serve wallet or if a Trestle Admin manually deactivated your API key.
+
+  * **API Key does not have Product Access (Portal Issue)**: The API key is active, but it is not enabled for this product or API version.
+
+    *<u>Check for:</u>* Incorrect endpoint, incorrect API version, or missing product access on the key.
+
+  * **API Key Expired**: The key has reached its end-of-life (primarily affects Trial users).
+
+  ### 429 Too Many Requests
+
+  You have sent too many requests in a given amount of time.
+
+  * **Rate Limit Exceeded**: You have surpassed the queries-per-second (QPS) threshold for your tier.
+
+  * **Quota Exceeded (Portal Issue)**: You have reached the total volume allowed for your current billing cycle. Upgrade your plan in the portal to resume service.
+
+  ### 500 Internal Server Error
+
+  An unexpected error occurred on the server side. Please contact support if this persists.
+</Danger>
+
+
+# Reverse Phone API
+Source: https://docs.trestleiq.com/api-reference/reverse-phone-api
+
+GET /3.2/phone
+Reverse Phone API offers comprehensive verification and enrichment of phone numbers. It includes phone validity, line type, carrier data, and all owners associated with the phone and their details, like demographics, current addresses, alternate phones, and email addresses.
+
+<Panel>
+  <RequestExample>
+    ```bash cURL theme={"theme":{"light":"github-light","dark":"github-dark"}}
+      curl --request GET \
+        --url "https://api.trestleiq.com/3.2/phone?phone=2069735100" \
+        --header "x-api-key: YOUR_API_KEY"
+    ```
+
+    ```javascript JavaScript theme={"theme":{"light":"github-light","dark":"github-dark"}}
+      const response = await fetch(
+        "https://api.trestleiq.com/3.2/phone?phone=2069735100",
+        {
+          headers: {
+            "x-api-key": "YOUR_API_KEY",
+          },
+        }
+      );
+      const data = await response.json();
+    ```
+
+    ```javascript Node.js theme={"theme":{"light":"github-light","dark":"github-dark"}}
+      import axios from "axios";
+
+      const { data } = await axios.get(
+        "https://api.trestleiq.com/3.2/phone?phone=2069735100",
+        {
+          headers: {
+            "x-api-key": "YOUR_API_KEY",
+          },
+        }
+      );
+      console.log(data);
+    ```
+
+    ```python Python theme={"theme":{"light":"github-light","dark":"github-dark"}}
+      import requests
+
+      headers = {"x-api-key": "YOUR_API_KEY"}
+
+      response = requests.get(
+        "https://api.trestleiq.com/3.2/phone",
+        params={"phone": "2069735100"},
+        headers=headers,
+        timeout=30,
+      )
+      data = response.json()
+      print(data)
+    ```
+
+    ```csharp C# theme={"theme":{"light":"github-light","dark":"github-dark"}}
+      using var client = new HttpClient();
+      client.DefaultRequestHeaders.Add("x-api-key", "YOUR_API_KEY");
+
+      var response = await client.GetAsync("https://api.trestleiq.com/3.2/phone?phone=2069735100");
+      var body = await response.Content.ReadAsStringAsync();
+      Console.WriteLine(body);
+    ```
+
+    ```go Go theme={"theme":{"light":"github-light","dark":"github-dark"}}
+      package main
+
+      import (
+        "fmt"
+        "io"
+        "net/http"
+      )
+
+      func main() {
+        req, _ := http.NewRequest("GET", "https://api.trestleiq.com/3.2/phone?phone=2069735100", nil)
+        req.Header.Set("x-api-key", "YOUR_API_KEY")
+
+        resp, err := http.DefaultClient.Do(req)
+        if err != nil {
+          panic(err)
+        }
+        defer resp.Body.Close()
+
+        body, _ := io.ReadAll(resp.Body)
+        fmt.Println(string(body))
+      }
+    ```
+
+    ```php PHP theme={"theme":{"light":"github-light","dark":"github-dark"}}
+      <?php
+      $curl = curl_init("https://api.trestleiq.com/3.2/phone?phone=2069735100");
+      curl_setopt($curl, CURLOPT_HTTPHEADER, ["x-api-key: YOUR_API_KEY"]);
+      curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+
+      $response = curl_exec($curl);
+      curl_close($curl);
+
+      echo $response;
+    ```
+
+    ```java Java theme={"theme":{"light":"github-light","dark":"github-dark"}}
+      import java.net.URI;
+      import java.net.http.HttpClient;
+      import java.net.http.HttpRequest;
+      import java.net.http.HttpResponse;
+
+      public class ReversePhoneExample {
+      public static void main(String[] args) throws Exception {
+        HttpRequest request =
+            HttpRequest.newBuilder()
+                .uri(URI.create("https://api.trestleiq.com/3.2/phone?phone=2069735100"))
+                .header("x-api-key", "YOUR_API_KEY")
+                .GET()
+                .build();
+
+        HttpResponse<String> response =
+            HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+        System.out.println(response.body());
+      }
+    }
+    ```
+  </RequestExample>
+
+  <ResponseExample>
+    ```json Response Example theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    {
+      "id": "Phone.3dbb6fef-a2df-4b08-cfe3-bc7128b6f5b4",
+      "phone_number": "2069735100",
+      "is_valid": true,
+      "country_calling_code": "1",
+      "line_type": "NonFixedVOIP",
+      "carrier": "Trestle Telco",
+      "is_prepaid": false,
+      "is_commercial": true,
+      "owners": [
+        {
+          "id": "Person.fffdcf06-0929-4b5a-9921-ee49b101ca84",
+          "name": "Waidong L Syrws",
+          "firstname": "Waidong",
+          "middlename": "L",
+          "lastname": "Syrws",
+          "alternate_names": [
+            "Sryws W L"
+          ],
+          "age_range": "25-29",
+          "gender": null,
+          "type": "Person",
+          "link_to_phone_start_date": "2019-03-23",
+          "industry": null,
+          "current_addresses": [
+            {
+              "id": "Location.d1a40ed5-a70a-46f8-80a9-bb4ac27e3a01",
+              "location_type": "Address",
+              "street_line_1": "100 Syrws St",
+              "street_line_2": "Ste 1",
+              "city": "Lynden",
+              "postal_code": "98264",
+              "zip4": "98264-9999",
+              "state_code": "WA",
+              "country_code": "US",
+              "lat_long": {
+                "latitude": 0,
+                "longitude": 0,
+                "accuracy": "Neighborhood"
+              },
+              "delivery_point": "SingleUnit",
+              "link_to_person_start_date": "2011-10-05"
+            }
+          ],
+          "alternate_phones": [
+            {
+              "phone_number": "2069735100",
+              "line_type": "NonFixedVOIP"
+            }
+          ],
+          "emails": [
+            "waidong.syrws@email.com"
+          ]  
+        }
+      ],
+      "error": {
+        "name": "InternalError",
+        "message": "Could not retrieve entire response"
+      },
+      "warnings": [
+        "Missing Input"
+      ]
+    }
+    ```
+  </ResponseExample>
+</Panel>
+
+## Reverse Phone API 3.2
+
+```http theme={"theme":{"light":"github-light","dark":"github-dark"}}
+GET https://api.trestleiq.com/3.2/phone?phone=[insert_phone_number]
+```
+
+## Query Parameters
+
+<ParamField type="string">
+  The phone number in E.164 or local format. The default country calling code is +1 (USA). **Example:** `phone=2069735100`
+</ParamField>
+
+<ParamField type="string (ISO-3166-2)">
+  The ISO-3166 alpha-2 country code of the phone number. See: [ISO-3166](https://www.nationsonline.org/oneworld/country_code_list.htm). **Example:** `phone.country_hint=US`
+</ParamField>
+
+<ParamField type="string">
+  Person or Business name associated with the phone number. If multiple names are associated with the phone in Trestle's database, this name will be ranked higher. **Example:** `phone.name_hint=John Doe`
+</ParamField>
+
+<ParamField type="string">
+  The postal code of the subscriber address associated with the phone number. If multiple names or addresses are associated with the phone in Trestle's database, this postal code hint will be used to rank name/address higher. **Example:** `phone.postal_code_hint=98264`
+</ParamField>
+
+## Header Parameters
+
+<ParamField type="string">
+  Your API key for authentication. **Example:** `{{ apiKey }}`
+</ParamField>
+
+## Response
+
+<ResponseField name="id" type="string or null <Phone.<uuid>>">
+  The persistent ID of the phone number. Format: `Phone.<uuid>`
+</ResponseField>
+
+<ResponseField name="phone_number" type="string or null (PhoneNumber)">
+  The phone number in E.164 or local format. The default country calling code is +1 (USA).
+</ResponseField>
+
+<ResponseField name="is_valid" type="boolean or null">
+  True if the phone number is valid.
+</ResponseField>
+
+<ResponseField name="country_calling_code" type="string or null <E.164>">
+  The country code of the phone number.
+</ResponseField>
+
+<ResponseField name="line_type" type="string or null">
+  The line type of the phone number. Possible values: \\
+
+  * `Landline` - Traditional wired phone line \\
+  * `Mobile` - Wireless phone line \\
+  * `FixedVOIP` - VOIP number connected to a physical address \\
+  * `NonFixedVOIP` - VOIP number unconnected to a fixed physical address \\
+  * `Premium` - Caller pays a premium for the call \\
+  * `TollFree` - Callee pays for call \\
+  * `Voicemail` - Voicemail-only service \\
+  * `Other` - Line type is unclear \
+    Enum: <Badge>Landline</Badge> <Badge>Mobile</Badge> <Badge>FixedVOIP</Badge> <Badge>NonFixedVOIP</Badge> <Badge>Premium</Badge> <Badge>TollFree</Badge> <Badge>Voicemail</Badge> <Badge>Other</Badge>
+</ResponseField>
+
+<ResponseField name="carrier" type="string or null">
+  The company that provides voice and/or data services for the phone number. Carriers are returned at the MVNO level.
+</ResponseField>
+
+<ResponseField name="is_prepaid" type="boolean or null">
+  True if the phone is associated with a prepaid account.
+</ResponseField>
+
+<ResponseField name="is_commercial" type="boolean or null">
+  True if the phone number is registered to a business.
+</ResponseField>
+
+<ResponseField name="owners" type="object[]">
+  The owner(s) associated to the phone.
+
+  <Expandable title="owner object">
+    <ResponseField name="id" type="string or null <Person.<uuid>>">
+      The persistent ID of the person.
+    </ResponseField>
+
+    <ResponseField name="name" type="string or null">
+      The full name of the person.
+    </ResponseField>
+
+    <ResponseField name="firstname" type="string or null (Firstname)">
+      The first name of the person.
+    </ResponseField>
+
+    <ResponseField name="middlename" type="string or null (Middlename)">
+      The middle name (or middle initial) of the person.
+    </ResponseField>
+
+    <ResponseField name="lastname" type="string or null (Lastname)">
+      The last name of the person.
+    </ResponseField>
+
+    <ResponseField name="alternate_names" type="string[]">
+      Alternate names of the person associated with the phone.
+    </ResponseField>
+
+    <ResponseField name="age_range" type="string or null (AgeRange)">
+      The age of the person in a 5-year range.
+    </ResponseField>
+
+    <ResponseField name="gender" type="string or null (Gender)">
+      The gender of the person.
+    </ResponseField>
+
+    <ResponseField name="type" type="string">
+      The type of the legal entity.
+
+      * Person: The legal entity is a person.
+      * Business: The legal entity is a company. Enum: <Badge>Business</Badge> <Badge>Person</Badge>
+    </ResponseField>
+
+    <ResponseField name="link_to_phone_start_date" type="string or null">
+      The date when the person was first linked to the phone number.
+    </ResponseField>
+
+    <ResponseField name="industry" type="string[] or null">
+      The industry classification of the business associated to the phone.
+    </ResponseField>
+
+    <ResponseField name="current_addresses" type="object[]">
+      A list of unique current locations associated with the Person or Business in the belongs\_to array.
+
+      <Expandable title="address object">
+        <ResponseField name="id" type="string or null <Location.<uuid>>">
+          The persistent ID of the address.
+        </ResponseField>
+
+        <ResponseField name="location_type" type="string or null">
+          The type of the location. Enum: <Badge>Country</Badge> <Badge>Neighborhood</Badge> <Badge>City</Badge> <Badge>N</Badge> <Badge>Neighborhood</Badge> <Badge>ZipPlus4</Badge> <Badge>Address</Badge>
+        </ResponseField>
+
+        <ResponseField name="street_line_1" type="string or null">
+          The first line of the street part in the structured address.
+        </ResponseField>
+
+        <ResponseField name="street_line_2" type="string or null">
+          The second line of the street part in the structured address.
+        </ResponseField>
+
+        <ResponseField name="city" type="string or null">
+          The name of the city in the structured address.
+        </ResponseField>
+
+        <ResponseField name="postal_code" type="string or null">
+          The postal code of the structured address.
+        </ResponseField>
+
+        <ResponseField name="zip4" type="string or null ^\d+-\d{4}$">
+          The ZIP+4 code of the structured address (USA).
+        </ResponseField>
+
+        <ResponseField name="state_code" type="string or null">
+          The state code of the structured address.
+        </ResponseField>
+
+        <ResponseField name="country_code" type="string or null (ISO-3166-2)">
+          The ISO-3166 alpha-2 country code of the phone number. See: [ISO-3166](https://www.nationsonline.org/oneworld/country_code_list.htm).
+        </ResponseField>
+
+        <ResponseField name="lat_long" type="object or null">
+          The coordinates of the geographical location of the address.
+
+          <Expandable title="lat_long object">
+            <ResponseField name="latitude" type="number or null <double>">
+              The latitude coordinate of the location.
+            </ResponseField>
+
+            <ResponseField name="longitude" type="number or null <double>">
+              The longitude coordinate of the location.
+            </ResponseField>
+
+            <ResponseField name="accuracy" type="string or null">
+              The accuracy of the geographical location. Enum: <Badge>Country</Badge> <Badge>State</Badge> <Badge>City</Badge> <Badge>PostalCode</Badge> <Badge>Neighborhood</Badge> <Badge>Street</Badge> <Badge>RoofTop</Badge>
+            </ResponseField>
+          </Expandable>
+        </ResponseField>
+
+        <ResponseField name="delivery_point" type="string or null (DeliveryPoint)">
+          The type of the delivery point of the address. Enum: <Badge>SingleUnit</Badge> <Badge>MultiUnit</Badge> <Badge>POBox</Badge> <Badge>PartialAddress</Badge>
+        </ResponseField>
+
+        <ResponseField name="link_to_person_start_date" type="string or null (LinkToPersonStartDate)">
+          The date when the address was first linked to the person.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="alternate_phones" type="object[]">
+      The list of alternate phone numbers of the primary owner of the phone number.
+
+      <Expandable title="alternate_phone object">
+        <ResponseField name="phone_number" type="string or null">
+          The phone number in E.164 or local format. The default country calling code is +1 (USA).
+        </ResponseField>
+
+        <ResponseField name="line_type" type="string or null">
+          The line type of the phone number. Possible values: \\
+
+          * `Landline` - Traditional wired phone line \\
+          * `Mobile` - Wireless phone line \\
+          * `FixedVOIP` - VOIP number connected to a physical address \\
+          * `NonFixedVOIP` - VOIP number unconnected to a fixed physical address \\
+          * `Premium` - Caller pays a premium for the call \\
+          * `TollFree` - Callee pays for call \\
+          * `Voicemail` - Voicemail-only service \\
+          * `Other` - Line type is unclear \
+            Enum: <Badge>Landline</Badge> <Badge>Mobile</Badge> <Badge>FixedVOIP</Badge> <Badge>NonFixedVOIP</Badge> <Badge>Premium</Badge> <Badge>TollFree</Badge> <Badge>Voicemail</Badge> <Badge>Other</Badge>
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="emails" type="string[]">
+      The list of emails associated to the primary owner of the phone.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="error" type="object(PartialError)">
+  Error details in case of an error.
+
+  <Expandable title="error object">
+    <ResponseField name="name" type="string">
+      Incomplete response due to external timeouts. **value:** "InternalError"
+    </ResponseField>
+
+    <ResponseField name="message" type="string">
+      The error message. **value:** "Could not retrieve entire response"
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="warnings" type="string[]">
+  Warnings returned as part of the response, if applicable.
+
+  Enum: <Badge>Invalid Input</Badge> <Badge>International number. Not authorized</Badge> <Badge>Missing Input</Badge>
+</ResponseField>
+
+<Danger>
+  ## Error Responses
+
+  ### 400 Bad Request
+
+  The server cannot process the request due to client-side errors.
+
+  *<u>Check for:</u>* Syntax errors in the request script, malformed JSON, or invalid parameters.
+
+  ### 403 Forbidden
+
+  The request is understood, but the server is refusing to fulfill it.
+
+  * **Invalid API Key**: The key is incorrect or deactivated.
+
+    *<u>Check for:</u>* Trailing spaces, syntax errors, or incorrect character counts.
+
+  * **API Key Missing**: The request header did not include an API key.
+
+  * **API Key Disabled (Portal Issue)**: The key is inactive.
+
+    *<u>Check for:</u>* Insufficient funds in your self-serve wallet or if a Trestle Admin manually deactivated your API key.
+
+  * **API Key does not have Product Access (Portal Issue)**: The API key is active, but it is not enabled for this product or API version.
+
+    *<u>Check for:</u>* Incorrect endpoint, incorrect API version, or missing product access on the key.
+
+  * **API Key Expired**: The key has reached its end-of-life (primarily affects Trial users).
+
+  ### 429 Too Many Requests
+
+  You have sent too many requests in a given amount of time.
+
+  * **Rate Limit Exceeded**: You have surpassed the queries-per-second (QPS) threshold for your tier.
+
+  * **Quota Exceeded (Portal Issue)**: You have reached the total volume allowed for your current billing cycle. Upgrade your plan in the portal to resume service.
+
+  ### 500 Internal Server Error
+
+  An unexpected error occurred on the server side. Please contact support if this persists.
+</Danger>
+
+
+# Smart CNAM API
+Source: https://docs.trestleiq.com/api-reference/smart-cnam-api
+
+GET /3.1/cnam
+Smart CNAM API validates phone numbers and identifies the name or business to which the phone number belongs.
+
+<Panel>
+  <RequestExample>
+    ```bash cURL theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    curl --request GET \
+      --url "https://api.trestleiq.com/3.1/cnam?phone=2069735100&phone.country_hint=US" \
+      --header "x-api-key: YOUR_API_KEY" \
+      --header "Accept: application/json"
+    ```
+
+    ```javascript JavaScript theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    const response = await fetch(
+      "https://api.trestleiq.com/3.1/cnam?phone=2069735100&phone.country_hint=US",
+      {
+        headers: {
+          "x-api-key": "YOUR_API_KEY",
+          Accept: "application/json",
+        },
+      }
+    );
+    const data = await response.json();
+    ```
+
+    ```javascript Node.js theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    import axios from "axios";
+
+    const { data } = await axios.get(
+      "https://api.trestleiq.com/3.1/cnam?phone=2069735100&phone.country_hint=US",
+      {
+        headers: {
+          "x-api-key": "YOUR_API_KEY",
+          Accept: "application/json",
+        },
+      }
+    );
+    console.log(data);
+    ```
+
+    ```python Python theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    import requests
+
+    headers = {
+        "x-api-key": "YOUR_API_KEY",
+        "Accept": "application/json",
+    }
+
+    response = requests.get(
+        "https://api.trestleiq.com/3.1/cnam",
+        params={"phone": "2069735100", "phone.country_hint": "US"},
+        headers=headers,
+        timeout=30,
+    )
+    data = response.json()
+    print(data)
+    ```
+
+    ```csharp C# theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    using var client = new HttpClient();
+    client.DefaultRequestHeaders.Add("x-api-key", "YOUR_API_KEY");
+    client.DefaultRequestHeaders.Add("Accept", "application/json");
+
+    var response = await client.GetAsync("https://api.trestleiq.com/3.1/cnam?phone=2069735100&phone.country_hint=US");
+    var body = await response.Content.ReadAsStringAsync();
+    Console.WriteLine(body);
+    ```
+
+    ```go Go theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    package main
+
+    import (
+    	"fmt"
+    	"io"
+    	"net/http"
+    )
+
+    func main() {
+    	req, _ := http.NewRequest("GET", "https://api.trestleiq.com/3.1/cnam?phone=2069735100&phone.country_hint=US", nil)
+    	req.Header.Set("x-api-key", "YOUR_API_KEY")
+    	req.Header.Set("Accept", "application/json")
+
+    	resp, err := http.DefaultClient.Do(req)
+    	if err != nil {
+    		panic(err)
+    	}
+    	defer resp.Body.Close()
+
+    	body, _ := io.ReadAll(resp.Body)
+    	fmt.Println(string(body))
+    }
+    ```
+
+    ```php PHP theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    <?php
+    $curl = curl_init("https://api.trestleiq.com/3.1/cnam?phone=2069735100&phone.country_hint=US");
+    curl_setopt($curl, CURLOPT_HTTPHEADER, [
+        "x-api-key: YOUR_API_KEY",
+        "Accept: application/json"
+    ]);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+
+    $response = curl_exec($curl);
+    curl_close($curl);
+
+    echo $response;
+    ```
+
+    ```java Java theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    import java.net.URI;
+    import java.net.http.HttpClient;
+    import java.net.http.HttpRequest;
+    import java.net.http.HttpResponse;
+
+    public class SmartCnamExample {
+      public static void main(String[] args) throws Exception {
+        HttpRequest request =
+            HttpRequest.newBuilder()
+                .uri(URI.create("https://api.trestleiq.com/3.1/cnam?phone=2069735100&phone.country_hint=US"))
+                .header("x-api-key", "YOUR_API_KEY")
+                .header("Accept", "application/json")
+                .GET()
+                .build();
+
+        HttpResponse<String> response =
+            HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+        System.out.println(response.body());
+      }
+    }
+    ```
+  </RequestExample>
+
+  <ResponseExample>
+    ```json Response Example theme={"theme":{"light":"github-light","dark":"github-dark"}}
+    {
+      "id": "Phone.3dbb6fef-a2df-4b08-cfe3-bc7128b6f5b4",
+      "is_valid": true,
+      "belongs_to": {
+        "id": "Person.fffdcf06-0929-4b5a-9921-ee49b101ca84",
+        "name": "Waidong L Syrws",
+        "firstname": "Waidong",
+        "middlename": "L",
+        "lastname": "Syrws"
+      },
+      "error": {
+        "name": "InternalError",
+        "message": "Could not retrieve entire response"
+      },
+      "warnings": [
+        "Missing Input"
+      ]
+    }
+    ```
+  </ResponseExample>
+</Panel>
+
+## Smart CNAM API 3.1
+
+```http theme={"theme":{"light":"github-light","dark":"github-dark"}}
+GET https://api.trestleiq.com/3.1/cnam?api_key=[insert_key]&phone=[insert_phone_number]
+```
+
+## Query Parameters
+
+<ParamField type="string">
+  The phone number in E.164 or local format. **Example:** `phone=2069735100`
+</ParamField>
+
+<ParamField type="string (ISO-3166-2)">
+  The ISO-3166 alpha-2 country code of the phone number. See: [ISO-3166](https://www.nationsonline.org/oneworld/country_code_list.htm). **Example:** `phone.country_hint=US`
+</ParamField>
+
+## Headers
+
+<ParamField type="string">
+  Your API key for authentication. **Example:** `{{ apiKey }}`
+</ParamField>
+
+## Response
+
+<ResponseField name="id" type="string or null <Phone.<uuid>>">
+  The persistent ID of the phone number.
+</ResponseField>
+
+<ResponseField name="is_valid" type="boolean or null">
+  True if the phone number is valid.
+</ResponseField>
+
+<ResponseField
+  name="belongs_to"
+  type="	
+(PhoneOwnerPersonSmartCNAM (object or null))"
+>
+  The primary owner of the phone number.
+
+  <Expandable title="belongs_to object">
+    <ResponseField name="id" type="string or null <Person.<uuid>>">
+      The persistent ID of the address.
+    </ResponseField>
+
+    <ResponseField name="name" type="string or null">
+      The full name of the person.
+    </ResponseField>
+
+    <ResponseField name="firstname" type="string or null (FirstName)">
+      The first name of the person.
+    </ResponseField>
+
+    <ResponseField name="middlename" type="string or null (MiddleName)">
+      The middle name (or middle initial) of the person.
+    </ResponseField>
+
+    <ResponseField name="lastname" type="string or null (LastName)">
+      The last name of the person.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="error" type="object(PartialError)">
+  Error details in case of an error.
+
+  <Expandable title="error object">
+    <ResponseField name="name" type="string">
+      Incomplete response due to external timeouts. **value:** "InternalError"
+    </ResponseField>
+
+    <ResponseField name="message" type="string">
+      The error message. **value:** "Could not retrieve entire response"
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="warnings" type="string[]">
+  Warnings returned as part of the response, if applicable.\
+  \
+  Enum: <Badge>Invalid Input</Badge> <Badge>International number. Not authorized</Badge> <Badge>Missing Input</Badge>
+</ResponseField>
+
+<Danger>
+  ## Error Responses
+
+  ### 400 Bad Request
+
+  The server cannot process the request due to client-side errors.
+
+  *<u>Check for:</u>* Syntax errors in the request script, malformed JSON, or invalid parameters.
+
+  ### 403 Forbidden
+
+  The request is understood, but the server is refusing to fulfill it.
+
+  * **Invalid API Key**: The key is incorrect or deactivated.
+
+    *<u>Check for:</u>* Trailing spaces, syntax errors, or incorrect character counts.
+
+  * **API Key Missing**: The request header did not include an API key.
+
+  * **API Key Disabled (Portal Issue)**: The key is inactive.
+
+    *<u>Check for:</u>* Insufficient funds in your self-serve wallet or if a Trestle Admin manually deactivated your API key.
+
+  * **API Key does not have Product Access (Portal Issue)**: The API key is active, but it is not enabled for this product or API version.
+
+    *<u>Check for:</u>* Incorrect endpoint, incorrect API version, or missing product access on the key.
+
+  * **API Key Expired**: The key has reached its end-of-life (primarily affects Trial users).
+
+  ### 429 Too Many Requests
+
+  You have sent too many requests in a given amount of time.
+
+  * **Rate Limit Exceeded**: You have surpassed the queries-per-second (QPS) threshold for your tier.
+
+  * **Quota Exceeded (Portal Issue)**: You have reached the total volume allowed for your current billing cycle. Upgrade your plan in the portal to resume service.
+
+  ### 500 Internal Server Error
+
+  An unexpected error occurred on the server side. Please contact support if this persists.
+</Danger>
+
+
+# Overview
+Source: https://docs.trestleiq.com/guides/overview
+
+
+
+Trestle Support: [support@trestleiq.com](mailto:support@trestleiq.com) | URL: [https://trestleiq.com/contact/](https://trestleiq.com/contact) | [ Terms of Service](https://trestleiq.com/terms-of-service/)
+
+### Base URL
+
+All API requests should be made to:
+
+```
+https://api.trestleiq.com
+```
+
+### Authentication
+
+Trestle controls access to the API and data via an API key. The API key is the primary data authentication method for your account. Your usage is recorded and reported via the API key. You may use a single API key for multiple Trestle APIs.
+
+# Trestle Product Descriptions
+
+Here's a brief overview of Trestle's APIs:
+
+### Validation and Verification APIs
+
+* [Phone Validation API](https://trestleiq.com/phone-validation-api/): Validates an input phone number and returns real-time metadata signals like carrier, line type, prepaid status, and phone activity. TCPA litigator checks available as an add-on.
+* [Real Contact API](https://trestleiq.com/real-contact-api/): Verify the contactability and consistency of an identity profile across name, email, phone number, physical address, and IP address. Returns powerful metadata, name match results, and contact grades. Available with add-ons for email deliverability, email age, and TCPA litigator checks.
+
+### Enrichment APIs
+
+* [Reverse Phone API](https://trestleiq.com/reverse-phone-api/): Trestle’s most robust enrichment API. Validates an input phone, provides relevant metadata, and returns **all potential phone owners** along with each owner’s linked addresses, emails, and alternate phone numbers.
+* [Caller Identification API](https://trestleiq.com/caller-identification-api/): Designed for use cases where only the top associated identity is needed, the Caller Identification API validates the phone, provides real-time metadata, and returns **only the** **highest ranked phone owner** along with their current address, emails, and alternate phone numbers.
+* [Smart CNAM API](https://trestleiq.com/smart-cnam-api/): Designed for use cases where only name data is needed, the Smart CNAM API validates the phone number and returns the **top associated name**.
+* [Reverse Address API](https://trestleiq.com/reverse-address-api/): Validates an input address, returns relevant metadata, and returns all identities currently linked to the address with demographic data, phone numbers, emails, associated people, and historical addresses for each linked identity.
+* [Phone Feedback API](https://trestleiq.com/phone-feedback-api/): Offers a method of providing feedback to Trestle about dialed numbers for their connected/disconnected status and confirmation of right party contact.
+
+# FAQ
+
+### ***How do I get an API Key?***
+
+[Sign up for a Developer Portal account](https://portal.trestleiq.com/signup). Once verified, you can request access to any of Trestle’s Enrichment APIs or start using Real Contact API or Phone Validation API immediately.
+
+### ***Do you have a Postman Collection?***
+
+Yes, we do, and you can find it [here](https://www.postman.com/trestleiq/workspace/trestle-identity-data-apis). You will need to fork the collection to use it and an API key, for which you can [sign up here](https://dev-portal.trestleiq.com/accounts/create).
+
+### ***Where can I check the status of the service?***
+
+You can find the API status on the [Trestle Status Page](https://status.trestleiq.com/).
+
+### ***Can I submit a request using POST method?***
+
+POST is only supported for our Phone Feedback API. Rest of the APIs only support via GET.
+
+### ***I have more questions. Who can I contact?***
+
+Please email us at [support@trestleiq.com](mailto:support@trestleiq.com).
+
+
