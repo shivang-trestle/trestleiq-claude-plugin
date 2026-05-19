@@ -1,0 +1,27 @@
+{
+  "name": "@trestleiq/mcp-server",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "trestleiq-mcp": "dist/index.js"
+  },
+  "files": ["dist", "README.md"],
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:live": "vitest run tests/live-smoke.test.ts",
+    "lint": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0"
+  }
+}
