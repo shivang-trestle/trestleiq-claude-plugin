@@ -1,6 +1,6 @@
 import { TrestleError } from './errors.js';
 
-const BASE_URL = 'https://api.trestleiq.com/1.1';
+const BASE_URL = 'https://api.trestleiq.com';
 
 export class TrestleClient {
   constructor(

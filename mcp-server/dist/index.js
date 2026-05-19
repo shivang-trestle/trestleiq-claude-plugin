@@ -5,7 +5,7 @@ import { TrestleError } from './errors.js';
 import { phoneValidationTool } from './tools/phone-validation.js';
 import { reversePhoneTool } from './tools/reverse-phone.js';
 const apiKey = process.env.TRESTLE_API_KEY;
-const server = new McpServer({ name: 'trestleiq', version: '0.1.0' });
+const server = new McpServer({ name: 'trestleiq', version: '0.1.1' });
 const tools = [phoneValidationTool, reversePhoneTool];
 if (!apiKey) {
     for (const tool of tools) {

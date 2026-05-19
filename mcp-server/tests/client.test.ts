@@ -16,38 +16,37 @@ describe('TrestleClient', () => {
 
   it('sends API key in x-api-key header on GET', async () => {
     const fetchFn = mockFetch(() =>
-      new Response(JSON.stringify({ is_valid: true, phone_number: '+14155552671' }), {
+      new Response(JSON.stringify({ is_valid: true, phone_number: '+12069735100' }), {
         status: 200,
         headers: { 'content-type': 'application/json' },
       }),
     );
 
     const client = new TrestleClient('test-key-123');
-    await client.get('/phone-validation', { phone: '+14155552671' });
+    await client.get('/3.0/phone_intel', { phone: '2069735100' });
 
     const init = fetchFn.mock.calls[0][1] as RequestInit;
     const headers = init.headers as Record<string, string>;
     expect(headers['x-api-key']).toBe('test-key-123');
   });
 
-  it('builds query string from params', async () => {
+  it('builds query string from params and hits the right versioned path', async () => {
     const fetchFn = mockFetch(() =>
-      new Response('{"is_valid":true,"phone_number":"+14155552671"}', { status: 200 }),
+      new Response('{"is_valid":true,"phone_number":"+12069735100"}', { status: 200 }),
     );
 
     const client = new TrestleClient('k');
-    await client.get('/phone-validation', { phone: '+14155552671', country_hint: 'US' });
+    await client.get('/3.0/phone_intel', { phone: '2069735100' });
 
     const url = fetchFn.mock.calls[0][0] as string;
-    expect(url).toContain('phone=%2B14155552671');
-    expect(url).toContain('country_hint=US');
-    expect(url).toMatch(/^https:\/\/api\.trestleiq\.com\/1\.1\/phone-validation\?/);
+    expect(url).toContain('phone=2069735100');
+    expect(url).toMatch(/^https:\/\/api\.trestleiq\.com\/3\.0\/phone_intel\?/);
   });
 
   it('maps 401 to TrestleError(auth)', async () => {
     mockFetch(() => new Response('{"error":"unauthorized"}', { status: 401 }));
     const client = new TrestleClient('bad-key');
-    await expect(client.get('/phone-validation', { phone: '+14155552671' })).rejects.toMatchObject({
+    await expect(client.get('/3.0/phone_intel', { phone: '2069735100' })).rejects.toMatchObject({
       kind: 'auth',
       http_status: 401,
     });
@@ -56,7 +55,7 @@ describe('TrestleClient', () => {
   it('maps 429 to TrestleError(rate_limit)', async () => {
     mockFetch(() => new Response('', { status: 429 }));
     const client = new TrestleClient('k');
-    await expect(client.get('/phone-validation', { phone: '+14155552671' })).rejects.toMatchObject({
+    await expect(client.get('/3.0/phone_intel', { phone: '2069735100' })).rejects.toMatchObject({
       kind: 'rate_limit',
       http_status: 429,
     });
@@ -65,7 +64,7 @@ describe('TrestleClient', () => {
   it('maps 4xx (not 401/429) to invalid_input', async () => {
     mockFetch(() => new Response('{"error":"bad phone"}', { status: 400 }));
     const client = new TrestleClient('k');
-    await expect(client.get('/phone-validation', { phone: '+1' })).rejects.toMatchObject({
+    await expect(client.get('/3.0/phone_intel', { phone: '2069735100' })).rejects.toMatchObject({
       kind: 'invalid_input',
       http_status: 400,
     });
@@ -80,8 +79,8 @@ describe('TrestleClient', () => {
     });
 
     const client = new TrestleClient('k');
-    const result = await client.get<{ is_valid: boolean }>('/phone-validation', {
-      phone: '+14155552671',
+    const result = await client.get<{ is_valid: boolean }>('/3.0/phone_intel', {
+      phone: '2069735100',
     });
     expect(result).toMatchObject({ is_valid: true });
     expect(fetchFn).toHaveBeenCalledTimes(2);
@@ -90,7 +89,7 @@ describe('TrestleClient', () => {
   it('throws upstream after second 5xx', async () => {
     mockFetch(() => new Response('', { status: 502 }));
     const client = new TrestleClient('k');
-    await expect(client.get('/phone-validation', { phone: '+14155552671' })).rejects.toMatchObject({
+    await expect(client.get('/3.0/phone_intel', { phone: '2069735100' })).rejects.toMatchObject({
       kind: 'upstream',
       http_status: 502,
     });
@@ -101,7 +100,7 @@ describe('TrestleClient', () => {
       throw new TypeError('fetch failed');
     });
     const client = new TrestleClient('k');
-    await expect(client.get('/phone-validation', { phone: '+14155552671' })).rejects.toMatchObject({
+    await expect(client.get('/3.0/phone_intel', { phone: '2069735100' })).rejects.toMatchObject({
       kind: 'network',
     });
   });

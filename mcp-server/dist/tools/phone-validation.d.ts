@@ -5,8 +5,7 @@ export declare const phoneValidationTool: {
     name: string;
     description: string;
     inputSchema: z.ZodObject<{
-        phone: z.ZodString;
-        country_hint: z.ZodOptional<z.ZodString>;
+        phone: z.ZodPipe<z.ZodString, z.ZodTransform<string, string>>;
     }, z.core.$strip>;
     handler(args: z.infer<typeof phoneValidationInput>, client: TrestleClient): Promise<{
         isError: boolean;
@@ -33,11 +32,17 @@ export declare const phoneValidationTool: {
         }[];
         structuredContent: {
             [x: string]: unknown;
-            phone_number: string;
-            is_valid: boolean;
-            country_code?: string | undefined;
-            line_type?: string | undefined;
-            carrier?: string | undefined;
+            id?: string | null | undefined;
+            phone_number?: string | null | undefined;
+            is_valid?: boolean | null | undefined;
+            activity_score?: number | null | undefined;
+            country_calling_code?: string | null | undefined;
+            country_code?: string | null | undefined;
+            country_name?: string | null | undefined;
+            line_type?: string | null | undefined;
+            carrier?: string | null | undefined;
+            is_prepaid?: boolean | null | undefined;
+            is_litigator_risk?: boolean | null | undefined;
         };
     }>;
 };

@@ -12,38 +12,61 @@ describe('reversePhoneTool', () => {
     expect(reversePhoneTool.name).toBe('trestle_reverse_phone');
   });
 
-  it('calls /reverse-phone with phone', async () => {
+  it('calls /3.2/phone with normalized 10-digit phone', async () => {
     const get = vi.fn(async () => ({
-      phone_number: '+14155552671',
+      phone_number: '+12069735100',
       is_valid: true,
-      owners: [{ name: 'Jane Doe', type: 'Person' }],
+      owners: [],
     }));
-    await reversePhoneTool.handler({ phone: '+14155552671' }, clientStub(get));
-    expect(get).toHaveBeenCalledWith('/reverse-phone', { phone: '+14155552671' });
+    await reversePhoneTool.handler({ phone: '2069735100' }, clientStub(get));
+    expect(get).toHaveBeenCalledWith('/3.2/phone', { phone: '2069735100' });
   });
 
-  it('summarizes one owner', async () => {
+  it('summarizes one owner using firstname/middlename/lastname', async () => {
     const get = vi.fn(async () => ({
-      phone_number: '+14155552671',
+      phone_number: '+12069735100',
       is_valid: true,
-      owners: [{ name: 'Jane Doe', type: 'Person' }],
+      line_type: 'Mobile',
+      carrier: 'Verizon Wireless',
+      owners: [
+        {
+          firstname: 'Jane',
+          middlename: 'A',
+          lastname: 'Doe',
+          type: 'Person',
+          age_range: '40-49',
+        },
+      ],
     }));
-    const result = await reversePhoneTool.handler({ phone: '+14155552671' }, clientStub(get));
+    const result = await reversePhoneTool.handler({ phone: '2069735100' }, clientStub(get));
     const text = (result.content[0] as { text: string }).text;
-    expect(text).toContain('Jane Doe');
+    expect(text).toContain('Jane A Doe');
     expect(text).toContain('Person');
+    expect(text).toContain('40-49');
+  });
+
+  it('prefers full "name" field when present', async () => {
+    const get = vi.fn(async () => ({
+      phone_number: '+12069735100',
+      is_valid: true,
+      owners: [{ name: 'Acme Corp', firstname: 'Should', lastname: 'Ignore', type: 'Business' }],
+    }));
+    const result = await reversePhoneTool.handler({ phone: '2069735100' }, clientStub(get));
+    const text = (result.content[0] as { text: string }).text;
+    expect(text).toContain('Acme Corp');
+    expect(text).not.toContain('Should Ignore');
   });
 
   it('summarizes multiple owners', async () => {
     const get = vi.fn(async () => ({
-      phone_number: '+14155552671',
+      phone_number: '+12069735100',
       is_valid: true,
       owners: [
-        { name: 'Jane Doe', type: 'Person' },
+        { firstname: 'Jane', lastname: 'Doe', type: 'Person' },
         { name: 'Acme Corp', type: 'Business' },
       ],
     }));
-    const result = await reversePhoneTool.handler({ phone: '+14155552671' }, clientStub(get));
+    const result = await reversePhoneTool.handler({ phone: '2069735100' }, clientStub(get));
     const text = (result.content[0] as { text: string }).text;
     expect(text).toContain('Jane Doe');
     expect(text).toContain('Acme Corp');
@@ -51,11 +74,11 @@ describe('reversePhoneTool', () => {
 
   it('handles zero owners gracefully', async () => {
     const get = vi.fn(async () => ({
-      phone_number: '+14155552671',
+      phone_number: '+12069735100',
       is_valid: true,
       owners: [],
     }));
-    const result = await reversePhoneTool.handler({ phone: '+14155552671' }, clientStub(get));
+    const result = await reversePhoneTool.handler({ phone: '2069735100' }, clientStub(get));
     expect(result.isError).toBeFalsy();
     const text = (result.content[0] as { text: string }).text;
     expect(text.toLowerCase()).toContain('no owner');
@@ -63,9 +86,9 @@ describe('reversePhoneTool', () => {
 
   it('returns isError on auth failure with /trestle-setup hint', async () => {
     const get = vi.fn(async () => {
-      throw new TrestleError('auth', 'Invalid key', 401);
+      throw new TrestleError('auth', 'Invalid key', 403);
     });
-    const result = await reversePhoneTool.handler({ phone: '+14155552671' }, clientStub(get));
+    const result = await reversePhoneTool.handler({ phone: '2069735100' }, clientStub(get));
     expect(result.isError).toBe(true);
     expect((result.content[0] as { text: string }).text).toContain('/trestle-setup');
   });

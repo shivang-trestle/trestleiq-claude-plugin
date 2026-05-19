@@ -15,7 +15,7 @@
         "repo": "shivang-trestle/trestleiq-claude-plugin"
       },
       "description": "Validate phone numbers and look up owners via the TrestleIQ API, directly from Claude Code conversations.",
-      "version": "0.1.0"
+      "version": "0.1.1"
     }
   ]
 }
