@@ -42,7 +42,9 @@ async function main() {
   }
 
   const rl = createInterface({ input: stdin, output: stdout });
-  console.log('Get an API key at https://portal.trestleiq.com/account/api-keys');
+  console.log('Get an API key at https://portal.trestleiq.com');
+  console.log('  - API Keys tab of your profile drawer, or');
+  console.log('  - any product\'s details page');
   const key = (await rl.question('Paste your Trestle API key: ')).trim();
   rl.close();
 

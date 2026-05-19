@@ -16,7 +16,7 @@ The script will:
 
 1. Detect if `TRESTLE_API_KEY` is already set in the environment — exit early if so.
 2. Detect if a key is already configured in the user's shell rc file — exit early if so.
-3. Prompt the user to paste a key (link them to https://portal.trestleiq.com/account/api-keys).
+3. Prompt the user to paste a key. The key is available at https://portal.trestleiq.com — in the **API Keys** tab of the profile drawer, or on any product's details page.
 4. Validate the key by hitting `GET /phone-validation` against `api.trestleiq.com`.
 5. On success, append `export TRESTLE_API_KEY="<key>" # trestleiq-claude-plugin` to the appropriate shell rc.
 6. Tell the user to `source` the rc file (or restart their terminal) and then restart Claude Code so the MCP server picks up the env var.
